@@ -15,20 +15,20 @@ import com.revature.BubbleCraft.utils.customexceptions.NotValidException;
 public class LoginMenu implements IMenu {
 
     //Constants
-    private static final UserService userService = new UserService();
+    private final UserService userService;
+
+    //Creating a store
     private  static final Shop SHOP = LoadShop();
     public static final Scanner input = new Scanner(System.in);
 
     //Constructor
-    public LoginMenu() {}
+    public LoginMenu(UserService userService) { this.userService = userService; }
 
     //START
     @Override
     public void start() {
-        //Creating a store
-        Shop shop = LoadShop();
 
-        System.out.println("Welcome to " + shop.getName() + "!");
+        System.out.println("Welcome to " + SHOP.getName() + "!");
 
         StartScreen: {
             while (true) {
@@ -83,35 +83,38 @@ public class LoginMenu implements IMenu {
         System.out.println("Signup is in progress.");
         User user = new User();
 
-        do {
-            System.out.println("SIGN UP!" +
-                    "\nEnter your information below to sign up.");
+        Signup_loop:
+        {
+            do {
+                System.out.println("SIGN UP!" +
+                        "\nEnter your information below to sign up.");
 
-            user.seteMail(Validate("Email"));
-            user.setName(Validate("Username"));
-            user.setPassword(Validate("Password"));
+                user.setEmail(Validate("Email"));
+                user.setName(Validate("Username"));
+                user.setPassword(Validate("Password"));
 
-            System.out.println("Is this correct?\n" + user.toString(0) +
-                    "\n[1] Yes, continue to login!" +
-                    "\n[2] No, redo the signup!" +
-                    "\n[3] Quit, your signup information will not be saved!");
+                System.out.println("Is this correct?\n" + user.toString(0) +
+                        "\n[1] Yes, continue to login!" +
+                        "\n[2] No, redo the signup!" +
+                        "\n[3] Quit, your signup information will not be saved!");
 
-            switch (input.nextInt()) {
-                case 1:
+                switch (input.nextInt()) {
+                    case 1:
+                        userService.register(user);
+                        System.out.println("Moving to Login...");
+                        break Signup_loop;
+                    case 2:
+                        System.out.println("Restarting Signup...");
+                        continue;
+                    case 3:
+                        Quit();
+                    default:
+                        System.out.println("Reloading Signup...");
 
-                    System.out.println("Moving to Login...");
-                    break;
-                case 2:
-                    System.out.println("Restarting Signup...");
-                    continue;
-                case 3:
-                    Quit();
-                default:
-                    System.out.println("Reloading Signup...");
+                }
 
-            }
-
-        } while (true);
+            } while (true);
+        }//Signup_loop end.
 
 
 
@@ -121,7 +124,7 @@ public class LoginMenu implements IMenu {
     public String Validate(String s) {
 
         boolean valid = false;
-        String v = "";
+        String v;
 
         do {
             System.out.print(s + ":\t");
