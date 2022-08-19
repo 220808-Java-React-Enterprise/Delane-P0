@@ -149,11 +149,9 @@ public class User {
     }
 
     public String toString(int i) {
-        return "User" +
-                "name='" + name + '\'' +
-                ", eMail='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return "Email:\t" + email +
+                "\nUsername:\t" + name +
+                "\nPassword:\t" + password;
     }
 
 

@@ -51,7 +51,6 @@ public class LoginMenu implements IMenu {
                         Quit();
                     default:
                         System.out.println("Invalid entry, please input one of the options shown.");
-                        break StartScreen;
 
                 }
             }
@@ -105,7 +104,7 @@ public class LoginMenu implements IMenu {
                 switch (input.nextInt()) {
                     case 1:
                         userService.register(user);
-                        System.out.println("Moving to Login...");
+                        System.out.println("Moving to Login...\n");
                         break Signup_loop;
                     case 2:
                         System.out.println("Restarting Signup...");
