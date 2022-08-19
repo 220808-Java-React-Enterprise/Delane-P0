@@ -1,18 +1,10 @@
-/*Program: Project 0 - Console store - BubbleCat
-Programmer: Delane Green
-Purpose:
-Created: 08/10/2022
-Last updated: 08/10/2022
-* */
 package com.revature.BubbleCraft.ui;
-
 
 import java.util.Scanner;
 
-public class MainMenu implements IMenu {
+public class AccountMenu implements IMenu{
 
-    //Constructor
-    public MainMenu() {}
+    public AccountMenu() {}
 
     @Override
     public void start() {
@@ -20,13 +12,14 @@ public class MainMenu implements IMenu {
         Scanner input = new Scanner(System.in);
 
         do {
-            System.out.println("This is the Main Menu");
-            System.out.println("Welcome to " + "Bubble Craft" + "[Username]" + "!");
+            System.out.println("This is the Account Menu");
+            System.out.println("This is your Account Panel" + "[Username]" +
+                            "\nHere you can make changes to your account.");
             System.out.println("Enter a number to select from the options below;\n");
-            System.out.println("[1] Account\t\t[4] View Orders\n" +
-                    "[2] Shop\t\t[5] View Order History\n" +
-                    "[3] View Cart\t\t[6] Shops near me\n" +
-                    "[Q] Quit\n");
+            System.out.println("[1] Change username\t\t[4] Change address\n" +
+                    "[2] Change password\t\t[5] Change phone number\n" +
+                    "[3] Change email\n" +
+                    "[0] Back to Home\t\t[Q] Quit\n");
             String menuChoice = input.next();
 
             switch (menuChoice) {
@@ -40,7 +33,7 @@ public class MainMenu implements IMenu {
                     break;
                 case "5":
                     break;
-                case "6":
+                case "0":
                     break;
                 case "q":
                 case "Q":
@@ -52,5 +45,4 @@ public class MainMenu implements IMenu {
 
 
     }
-
 }

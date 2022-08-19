@@ -18,8 +18,9 @@ public class User {
     private String state = "uhu";
     private String zip = "uhu";
     private String country = "uhu";
-    private String payment_method = "uhu";
-    private String role = "po";
+    private String phone = "";
+    //private String payment_method = ""; //Implement if time allows.
+    private String role = "";
 
 
     //Constructors
@@ -107,14 +108,6 @@ public class User {
         this.country = country;
     }
 
-    public String getPayment_method() {
-        return payment_method;
-    }
-
-    public void setPayment_method(String payment_method) {
-        this.payment_method = payment_method;
-    }
-
     public String getRole() {
         return role;
     }
@@ -123,7 +116,27 @@ public class User {
         this.role = role;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     //Methods
+    public void setAddress( String street, String city, String state, String zip, String country) {
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.country = country;
+
+    }
+    public String getAddress() {
+        return this.street + ", " + this.city + ", " + this.state + " " + this.zip + ", " + this.country;
+
+    }
 
 
     //Overrides
@@ -145,7 +158,7 @@ public class User {
 
 
     public String toString(char c) {
-        return "User{" +
+        return "User:" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
@@ -155,8 +168,7 @@ public class User {
                 ", state='" + state + '\'' +
                 ", zip='" + zip + '\'' +
                 ", country='" + country + '\'' +
-                ", payment_method='" + payment_method + '\'' +
-                ", role='" + role + '\'' +
-                '}';
+                ", phone='" + phone + '\'' +
+                ", role='" + role + '\'';
     }
 }
