@@ -21,6 +21,9 @@ public class LoginMenu implements IMenu {
     private  static final Shop SHOP = LoadShop();
     public static final Scanner input = new Scanner(System.in);
 
+    //Goal implement a guest user when the customer first access the program.
+   private static User user = new User(" Guest");
+
     //Constructor
     public LoginMenu(UserService userService) { this.userService = userService; }
 
@@ -43,7 +46,7 @@ public class LoginMenu implements IMenu {
                     case '2':
                         Signup();
                         Login();
-                        break;
+                        break StartScreen;
                     case 'q':
                         Quit();
                     default:
@@ -65,6 +68,7 @@ public class LoginMenu implements IMenu {
     //QUIT
     public void Quit() {
 
+        user = new User("Guest"); //TODO: create a default guest user.
 
         System.out.println("\nThanks for visiting " + SHOP.getName() + "!\nHave a great day!\n");
         input.close();  //??
@@ -156,17 +160,35 @@ public class LoginMenu implements IMenu {
 
     //LOGIN
     public void Login() {
+
+        String email = "";
+        String password = "";
+
         Login: {
             do{
-                String name = "";
-                String password = "";
 
-                System.out.print("User name: ");
-
-                break Login; //temp
+                System.out.println("Login with your email and password.\n(Enter Q to quit.)");
 
 
-            }while(true);
+                System.out.print("Email:\t");
+                email = input.nextLine();
+
+                System.out.print("Password:\t");
+                password = input.nextLine();
+
+                if(email.equalsIgnoreCase("q") || password.equalsIgnoreCase("q")) {
+                    Quit();
+                }
+
+                user = userService.Login( email, password);
+
+                if( user.getName().equalsIgnoreCase("Guest") ) {
+
+                    System.out.println("User not found!\nPlease check if your email and password are correct.\n");
+                }
+
+
+            }while(user.getName().equalsIgnoreCase("Guest"));
         }
 
     }

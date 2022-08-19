@@ -14,6 +14,7 @@ public class MainMenu implements IMenu {
 
     @Override
     public void start() {
+        System.out.println("This is the Main Menu");
 
     }
 

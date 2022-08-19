@@ -24,6 +24,10 @@ public class User {
 
     //Constructors
     public User() {}
+    //Guest constructor
+    public User (String name) {
+        this.name = name;
+    }
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;

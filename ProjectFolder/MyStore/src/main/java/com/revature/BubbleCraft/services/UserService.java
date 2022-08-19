@@ -15,28 +15,57 @@ public class UserService {
         userDAO.save(user);
     }
 
+    //Login method.
+    public User Login(String email, String password) {
+        User user = userDAO.getUserByEmailAndPassword( email, password);
+        if(!(user == null)) { return user; }
+        else {
+            return user = new User("Guest"); //TODO: Change to default guest user.
+        }
+
+    }
+
     //Validate user email.
     public boolean isValidEmail(String email){
 
         boolean check = email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+");
         if(!check) { throw new NotValidException( "That is not a valid email.\nPlease enter a valid email address below or enter q to quit." ); }
 
+        //Checking for already registered email.
+        if(!userDAO.findEmail(email).equalsIgnoreCase("NOT FOUND")) {
+            throw new NotValidException("That email is already registered!");
+        }
+
         return check;
     }
 
     //Validate user name.
-    public boolean isValidUserName(String userName){
-        boolean check = userName.matches("^[a-zA-Z0-9_-]{3,15}$");
-        if(!check) { throw new NotValidException( "That is not a valid username.\nPlease enter a valid username below or enter q to quit." ); }
+    public boolean isValidUserName(String username){
+        boolean check = username.matches("^[a-zA-Z0-9_-]{3,15}$");
+        if(!check) {
+            throw new NotValidException( "That is not a valid username." +
+                    "\nA valid username can use letters, numbers, plus _ or -, and be between 3-15 characters long." +
+                    "\nPlease enter a valid username below or enter q to quit." );
+        }
+
+        //Checking if username is taken username.
+        if(!userDAO.findUsername(username).equals("NOT FOUND")) {
+            throw new NotValidException( "Sorry that username is taken!");
+        }
 
         return check;
     }
+
+
 
     //Validate user password.
     public boolean isValidPassword(String password){
         boolean check = password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
-        if(!check) { throw new NotValidException( "That is not a valid password.\nPlease enter a valid password below or enter q to quit." ); }
+        if(!check) { throw new NotValidException( "That is not a valid password." +
+                "\nA valid password must contain upper and lower case letters, numbers, and at least one symbol." +
+                "\nPlease enter a valid password below or enter q to quit." ); }
 
         return check;
     }
+
 }
