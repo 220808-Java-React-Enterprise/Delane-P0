@@ -9,7 +9,7 @@ package com.revature.BubbleCraft.models;
 public class User {
     //Data fields
     //Temp testing values!
-    private String id = "" + Math.random() * 100;
+    private String id;  //TODO: change to UUID.
     private String name;
     private String password;
     private String email;

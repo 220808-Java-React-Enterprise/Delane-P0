@@ -8,6 +8,7 @@ package com.revature.BubbleCraft.ui;
 
 
 import com.revature.BubbleCraft.utils.Main;
+import com.revature.BubbleCraft.utils.Navigation;
 
 import java.util.Scanner;
 
@@ -52,8 +53,7 @@ public class MainMenu implements IMenu {
                     break;
                 case "q":
                 case "Q":
-                    new Main().Quit();
-                    break;
+                    return;
                 default:
                     System.out.println("Sorry that's not an available option.\nPlease enter one from the menu.");
 

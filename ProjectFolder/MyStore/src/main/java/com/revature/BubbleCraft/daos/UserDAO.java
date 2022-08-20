@@ -1,7 +1,8 @@
 package com.revature.BubbleCraft.daos;
 
+import com.revature.BubbleCraft.models.Admin;
+import com.revature.BubbleCraft.models.Customer;
 import com.revature.BubbleCraft.models.User;
-import com.revature.BubbleCraft.utils.customexceptions.NotValidException;
 import com.revature.BubbleCraft.utils.database.ConnectionFactory;
 
 import java.sql.Connection;
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 public class UserDAO implements CrudDAO<User> {
 
@@ -17,7 +19,7 @@ public class UserDAO implements CrudDAO<User> {
         try ( Connection con = ConnectionFactory.getInstance().getConnection() ){
 
             PreparedStatement ps = con.prepareStatement("INSERT INTO users ( id, name, password, email, street, city, state, zip, country, payment_method, role) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            ps.setString(1, obj.getId());
+            ps.setString(1, String.valueOf(UUID.randomUUID())); //Generating random UUID when user is saved to the db. //TODO: Move UUID creation to when user signup and verify against already saved UUIDs to avoid conflicts.
             ps.setString(2, obj.getName());
             ps.setString(3, obj.getPassword());
             ps.setString(4, obj.getEmail());
@@ -41,12 +43,23 @@ public class UserDAO implements CrudDAO<User> {
 
     //For Login
     public User getUserByEmailAndPassword(String email, String password) {
+
         try(Connection con = ConnectionFactory.getInstance().getConnection() ) {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?");
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) { return new User(rs.getString("name"), rs.getString("email"), rs.getString("password")); }
+
+            if(rs.next()) {
+                if(!rs.getString("role").equals("ADMIN")) {
+                    return new Customer(rs.getString("name"), rs.getString("email"), rs.getString("password"));
+                }
+                else {
+
+                    return new Admin(rs.getString("name"), rs.getString("email"), rs.getString("password"));
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

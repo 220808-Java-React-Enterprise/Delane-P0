@@ -10,12 +10,12 @@ package com.revature.BubbleCraft.ui;
 import java.util.Scanner;
 import com.revature.BubbleCraft.models.*;
 import com.revature.BubbleCraft.services.UserService;
+import com.revature.BubbleCraft.utils.Navigation;
 import com.revature.BubbleCraft.utils.customexceptions.NotValidException;
 
-public class LoginMenu implements IMenu {
+public class LoginMenu extends Navigation implements IMenu {
 
     //Constants
-    private final UserService userService;
 
     //Creating a store
     private  static final Shop SHOP = LoadShop();
@@ -25,16 +25,18 @@ public class LoginMenu implements IMenu {
    private static User user = new User(" Guest");
 
     //Constructor
-    public LoginMenu(UserService userService) { this.userService = userService; }
+    public LoginMenu(UserService userService) {
+
+    }
 
     //START
     @Override
     public void start() {
 
-        System.out.println("Welcome to " + SHOP.getName() + "!");
 
         StartScreen: {
             while (true) {
+                System.out.println("Welcome to " + SHOP.getName() + "!");
                 System.out.println( "[1]\tLOGIN\n" +
                                     "[2]\tSIGNUP\n" +
                                     "[Q]\tQUIT");
@@ -42,17 +44,21 @@ public class LoginMenu implements IMenu {
                 switch (new Scanner(System.in).next().toLowerCase().charAt(0)) {
                     case '1':
                         Login();
-                        break StartScreen;
+                        break;
                     case '2':
                         Signup();
                         Login();
-                        break StartScreen;
+                        break;
                     case 'q':
                         Quit();
                     default:
                         System.out.println("Invalid entry, please input one of the options shown.");
+                        continue;
 
                 }
+
+                //Calling the mainmenu
+                mainMenu.start();
             }
         }
 
@@ -77,7 +83,7 @@ public class LoginMenu implements IMenu {
 
     //LOAD STORE --temporary.
     public static Shop LoadShop() {
-        return new Shop("Bubble Craft", "123 Some Street", "City", "State", "12345", "1-xxx-xxxx");
+        return new Shop("Bubble Craft", "123 Some Street", "City", "State", "12345", "USA", "1-xxx-xxxx", "ydyddtr@bc.org", "Hillary Jenkins", "Hillary Jenkins");
     }
 
     //SIGNUP

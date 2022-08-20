@@ -9,26 +9,66 @@ package com.revature.BubbleCraft.models;
 
 public class Shop {
     //DATA FIELDS
+    private String uuid;
+    private int id;
     private String name;
     private String street;
     private String city;
     private String state;
     private String zip;
-    private  String phoneNumber;
+    private String country;
+    private String phone;
+    private String email;
+    private String manager;
+    private String owner;
 
     //CONSTRUCTORS
     public Shop() {}
 
-    public Shop(String name, String street, String city, String state, String zip, String phoneNumber) {
+    public Shop(String name, String street, String city, String state, String zip, String country, String phone, String email, String manager, String owner) {
         this.name = name;
         this.street = street;
         this.city = city;
         this.state = state;
         this.zip = zip;
-        this.phoneNumber = phoneNumber;
+        this.country = country;
+        this.phone = phone;
+        this.email = email;
+        this.manager = manager;
+        this.owner = owner;
     }
 
-    //GETTERS and SETTERS
+    //Shop constructor
+    public Shop(int id, String name, String street, String city, String state, String zip, String country, String phone, String email, String manager, String owner) {
+        this.id = id;
+        this.name = name;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.country = country;
+        this.phone = phone;
+        this.email = email;
+        this.manager = manager;
+        this.owner = owner;
+    }
+
+    //Supplier constructor
+    public Shop(String uuid, String name, String street, String city, String state, String zip, String country, String phone, String email, String manager, String owner) {
+        this.uuid = uuid;
+        this.name = name;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.country = country;
+        this.phone = phone;
+        this.email = email;
+        this.manager = manager;
+        this.owner = owner;
+    }
+
+    //GETTERS and SETTERS   //TODO: organize the getters and setters.
     public String getName() {
         return name;
     }
@@ -64,11 +104,59 @@ public class Shop {
         this.zip = zip;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone() {
+        return phone;
     }
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getManager() {
+        return manager;
+    }
+
+    public void setManager(String manager) {
+        this.manager = manager;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     //address
@@ -84,16 +172,19 @@ public class Shop {
     //METHODS
     protected void Restock() {}
 
-    //toString
     @Override
     public String toString() {
-        return "Store{" +
+        return "Shop{" +
                 "name='" + name + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", zip='" + zip + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
+                ", country='" + country + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", manager='" + manager + '\'' +
+                ", owner='" + owner + '\'' +
                 '}';
     }
 }
