@@ -9,9 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ShopDAO implements CrudDAO<Shop> {
     @Override
@@ -115,13 +113,53 @@ public class ShopDAO implements CrudDAO<Shop> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return list;
-
     }
 
     @Override
     public List<Shop> getAll() {
         return null;
     }
+
+    public Map<Integer, Integer> getShopInventory(int shopId ) {
+
+        Map< Integer, Integer> map = new LinkedHashMap<>();
+
+        try ( Connection con = ConnectionFactory.getInstance().getConnection() ){
+
+            PreparedStatement ps = con.prepareStatement("SELECT product_id, amount FROM distributions WHERE shop_id = ?");
+            ps.setInt(1, shopId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while( rs.next() ) {
+                map.put( rs.getInt("product_id"), rs.getInt("amount"));
+            }
+            return map;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public void saveShopInventory(Map<Integer,Integer> inventory, int shopId) {
+
+        System.out.println("H3");
+        try ( Connection con = ConnectionFactory.getInstance().getConnection() ){
+
+            System.out.println("H4");
+            for(Map.Entry<Integer,Integer> map: inventory.entrySet()) {
+                PreparedStatement ps = con.prepareStatement("INSERT INTO distributions VALUES ( ? ) WHERE shop_id = ? AND product_id = ?");
+                ps.setInt(1, map.getValue());
+                ps.setInt(2, shopId);
+                ps.setInt(3, map.getKey());
+
+                ps.executeUpdate();
+                System.out.println("H5");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

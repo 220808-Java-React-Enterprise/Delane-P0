@@ -1,25 +1,30 @@
 package com.revature.BubbleCraft.utils;
 
 
+import com.revature.BubbleCraft.daos.ProductDAO;
 import com.revature.BubbleCraft.daos.ShopDAO;
 import com.revature.BubbleCraft.daos.UserDAO;
+import com.revature.BubbleCraft.models.Product;
 import com.revature.BubbleCraft.models.Shop;
 import com.revature.BubbleCraft.models.User;
+import com.revature.BubbleCraft.services.ProductService;
 import com.revature.BubbleCraft.services.ShopService;
 import com.revature.BubbleCraft.services.UserService;
 import com.revature.BubbleCraft.ui.IMenu;
 import com.revature.BubbleCraft.ui.MainMenu;
 
-import java.util.Scanner;
+import java.util.*;
 
 //This class is to hold all the static properties, methods, and local dependencies needed for the program.
 public class Navigation implements IMenu {
     //Program constants
-    protected final UserService userService = new UserService( new UserDAO() );
+    protected static final UserService userService = new UserService( new UserDAO() );
     private static final ShopService shopService = new ShopService( new ShopDAO() );
+    protected static final ProductService productService = new ProductService( new ProductDAO() );
 
     //Creating a store
     protected static Shop shop = LoadShop();
+    private static final List<Product> PRODUCT_LIST = productService.getProductList();
 
 
     public static final Scanner input = new Scanner(System.in);
@@ -64,6 +69,32 @@ public class Navigation implements IMenu {
     private static User GenerateGuestUser() {
         return new User("Guest");
 
+    }
+
+    //CONVERT TO PRODUCT
+    public static List<Product> ConvertIntToProduct(List<Integer> list) {
+
+        List<Product> products = new LinkedList<>();
+
+        for(Product p: PRODUCT_LIST) {
+            if( list.contains(p.getId()) ) { products.add( p ); }
+
+        }
+        return products;
+    }
+
+    public static Map<Product,Integer> ConvertIntToProduct(Map<Integer,Integer> map) {
+        Map<Product,Integer> products = new LinkedHashMap<>();
+
+        for(Product p: PRODUCT_LIST) {
+            if( map.containsKey( p.getId() ) ) {
+
+                products.put( p, map.get( p.getId() ) );
+
+            }
+
+        }
+        return products;
     }
 
 

@@ -7,7 +7,19 @@ Last updated: 08/10/2022
 
 package com.revature.BubbleCraft.models;
 
+
+
+import com.revature.BubbleCraft.daos.ShopDAO;
+import com.revature.BubbleCraft.services.ShopService;
+import com.revature.BubbleCraft.utils.Navigation;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Shop {
+    //Constants
+    private final ShopService shopService = new ShopService( new ShopDAO() );
+
     //DATA FIELDS
     private String uuid;
     private int id;
@@ -21,6 +33,7 @@ public class Shop {
     private String email;
     private String manager;
     private String owner;
+    private Map<Integer, Integer> inventory = new LinkedHashMap<>();
 
     //CONSTRUCTORS
     public Shop() {}
@@ -159,6 +172,15 @@ public class Shop {
         this.email = email;
     }
 
+    public Map<Integer, Integer> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Map<Integer, Integer> inventory) {
+        this.inventory = inventory;
+    }
+
+
     //address
     public String getAddress() { return this.street + " " + this.city + ", " + this.state + " " + this.zip; }
     public void setAddress(String street, String city, String state, String zip) {
@@ -167,6 +189,50 @@ public class Shop {
         this.state = state;
         this.zip = zip;
     }
+
+    //Inventory methods
+
+    public void addToInventory( Integer int1, Integer int2 ) {
+        this.inventory.put( int1, int2);
+
+    }
+
+    public void getInventoryFromDB() {
+        System.out.println("He1?");
+        this.inventory = shopService.getShopInventory( this.id );
+
+    }
+
+    public void saveInventoryToDB() {
+
+        shopService.saveShopInventory(this.inventory, this.id);
+    }
+
+    public void viewInventory() {
+
+
+        this.getInventoryFromDB();//TODO temp test REMOVE
+
+        System.out.println( "\n" + this.name + "'s Inventory");
+        System.out.println("To view product details enter the corresponding number. " +
+                "To restock a product enter its number followed by the word restock.");
+        System.out.println( "\tPRODUCT\t\t\tAMOUNT");
+
+        Map<Product,Integer> viewProducts = Navigation.ConvertIntToProduct(this.inventory);
+
+        int i = 0;
+        for(Map.Entry<Product,Integer> product: viewProducts.entrySet()) {
+
+            i++;
+
+            System.out.println( "[" + i + "]\t" + product.getKey().getName() + "\t\t" + product.getValue() );
+
+
+        }
+
+    }
+
+
 
 
     //METHODS

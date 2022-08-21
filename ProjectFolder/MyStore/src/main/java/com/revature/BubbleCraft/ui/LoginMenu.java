@@ -48,7 +48,7 @@ public class LoginMenu extends Navigation implements IMenu {
                         Login();
                         break;
                     case 'Q':
-                    case 'q':
+                    case 'q': System.exit(0);
                         continue;
                     default:
                         System.out.println("Invalid entry, please input one of the options shown.");

@@ -83,7 +83,7 @@ public class Customer extends User{
     public void viewCart() {
         System.out.println("\t\t\t\tCart\n" +
                 "Your item list:\n" +
-                "\tName\t\tAmount\t\tPrice");
+                "Name\t\tAmount\t\tPrice");
 
         for(Map.Entry<Product, Integer> product: cart.entrySet()) {
             System.out.println( product.getKey().getName() + "\t\t" +

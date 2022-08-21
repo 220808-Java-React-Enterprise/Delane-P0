@@ -8,5 +8,6 @@ public class CartMenu implements IMenu{
     @Override
     public void start() {
 
+        //Things to be moved over from shopping menu.
     }
 }

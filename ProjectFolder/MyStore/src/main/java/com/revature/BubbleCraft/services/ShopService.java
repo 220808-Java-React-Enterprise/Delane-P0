@@ -8,6 +8,7 @@ import com.revature.BubbleCraft.models.Shop;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ShopService {
     private final ShopDAO shopDAO;
@@ -25,4 +26,15 @@ public class ShopService {
         return shopDAO.getById( id );
 
     }
+
+    public Map< Integer, Integer> getShopInventory(int shopId ) {
+
+        return shopDAO.getShopInventory( shopId );
+
+    }
+    public void saveShopInventory(Map<Integer,Integer> inventory, int shopId) {
+        shopDAO.saveShopInventory( inventory, shopId );
+
+    }
+
 }

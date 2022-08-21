@@ -41,13 +41,21 @@ public class ShoppingMenu extends Navigation implements IMenu{
                 String menuChoice = input.nextLine();
 
                 if (menuChoice.charAt(0) == '0') {
+
                     break ShoppingMenu;
+
                 } else if (Character.isDigit(menuChoice.charAt(0))) {
-                    ProductSelection(productService.getProductList(), Integer.parseInt(String.valueOf(menuChoice.charAt(0))));
+
+                    ProductSelection( productService.getProductList(), Integer.parseInt(menuChoice) );
+
                 } else if (menuChoice.charAt(0) == 'C' || menuChoice.charAt(0) == 'c') {
+
                     try {
+
                         Checkout(customer);
+
                     } catch (IOException e) {
+
                         e.printStackTrace();
                     }
                 }
@@ -66,14 +74,14 @@ public class ShoppingMenu extends Navigation implements IMenu{
         //TODO: find a better wau to deal with the menu choice.
 
 
-        //Subtracting 1 because of the offset product display.
-        if( menuChoice - 1 < productList.size() ) {
+        //Subtracting 49 to make up for the offset of turning a char into an int..
+        if( menuChoice - 49 < productList.size() ) {
 
             System.out.println("How many do you want to add?\nAmount:\t");
             Integer amount = Integer.parseInt(input.next());
 
-            customer.addToCart(productList.get(menuChoice - 1), amount);
-            System.out.println( amount + " " + productList.get(menuChoice - 1).getName() + " added to cart!\n");
+            customer.addToCart(productList.get(menuChoice - 49), amount);
+            System.out.println( amount + " " + productList.get(menuChoice - 49).getName() + " added to cart!\n");
         }
         else { System.out.println("Hey, that's bot an option!\n"); }
 

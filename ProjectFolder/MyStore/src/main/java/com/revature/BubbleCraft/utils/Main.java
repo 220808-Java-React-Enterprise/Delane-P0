@@ -8,6 +8,7 @@ Last updated: 08/10/2022
 package com.revature.BubbleCraft.utils;
 
 import com.revature.BubbleCraft.daos.UserDAO;
+import com.revature.BubbleCraft.models.Shop;
 import com.revature.BubbleCraft.services.UserService;
 import com.revature.BubbleCraft.ui.LoginMenu;
 import com.revature.BubbleCraft.ui.MainMenu;
@@ -27,14 +28,12 @@ public class Main {
             throw new RuntimeException();
         }
         */
+        //Testing shop
+        Shop qqq = Navigation.LoadShop();
+        qqq.viewInventory();
 
         //Testing shopping menu
         //new ShoppingMenu().start();
-        int i = '0';
-        int j = '1';
-        Integer I = Integer.valueOf('0');
-        Integer J = Integer.valueOf('1');
-        System.out.println( i + " " + j + " " + I + " " + J);
 
         //Creating new Login instance, which takes a UserService as a parameter, which then takes a UserDAO(database access object?) as a parameter.
         //The connection works like using a UPS between an outlet and an appliance?
