@@ -7,12 +7,15 @@ Last updated: 08/10/2022
 
 package com.revature.BubbleCraft.models;
 
+import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class Customer extends User{
 
     //Data fields
-    private Map<Product, Integer> cart;
+    private Map<Product, Integer> cart = new LinkedHashMap<>();
 
     //Constructors
     public Customer() {}
@@ -24,6 +27,11 @@ public class Customer extends User{
         super( name, email, password );
 
     }
+    //Full constructor for reading from DB
+    public Customer(UUID id, String name, String password, String email, String street, String city, String state, String zip, String country, String phone, String role, LocalDate registered, LocalDate lastlogin) {
+        super( id, name, password, email, street, city, state, zip, country, phone, role, registered, lastlogin );
+    }
+
 
     //GETTERS & SETTERS
     public Map<Product, Integer> getCart() {
@@ -37,15 +45,19 @@ public class Customer extends User{
 
     //Methods
     //ADD TO CART
-    public void addToCart(Product product, Integer amount) {
+    public void addToCart(Product product, Integer amount) { //TODO
 
-        if( this.cart.containsKey( product ) ) {
 
-            this.cart.replace( product, ( this.cart.get( product ) + amount ) );
+        for(Map.Entry<Product, Integer> cartMap: cart.entrySet()) {
 
+            if(cartMap.getKey().getId().equals(product.getId())) {
+
+                //If the product is found in the cart add to its count and exit before adding another entry.
+                cart.put( cartMap.getKey(), cart.get(cartMap.getKey()) + amount);
+                return;
+            }
         }
-        else { this.cart.put( product, amount ); }
-
+        cart.put( product, amount );
     }
 
     //REMOVE FROM CART
@@ -66,6 +78,25 @@ public class Customer extends User{
         this.cart.clear();
 
     }
+
+    //VIEW CART
+    public void viewCart() {
+
+        for(Map.Entry<Product, Integer> product: cart.entrySet()) {
+            System.out.println( product.getKey().getName() + "\t\t" +
+                    product.getKey().getBrand() + "\t\t" + product.getValue());
+
+        }
+
+    }
+
+
+    //CHECKOUT aka PLACE ORDER
+    public Order placeOrder(Map<Product, Integer> cart) {
+        return null;
+    }
+
+
 
 
 

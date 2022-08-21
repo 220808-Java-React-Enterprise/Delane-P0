@@ -1,5 +1,6 @@
 package com.revature.BubbleCraft.daos;
 
+import com.revature.BubbleCraft.models.Product;
 import com.revature.BubbleCraft.models.Shop;
 import com.revature.BubbleCraft.utils.database.ConnectionFactory;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 public class ShopDAO implements CrudDAO<Shop> {
     @Override
-    public void save(Shop obj) throws IOException {
+    public void save(Shop obj) {
         try ( Connection con = ConnectionFactory.getInstance().getConnection() ){
 
             PreparedStatement ps = con.prepareStatement("INSERT INTO users ( id, name, email, street, city, state, zip, country, phone) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -45,7 +46,48 @@ public class ShopDAO implements CrudDAO<Shop> {
     }
 
     @Override
+    //Used for suppliers
     public Shop getById(String id) {
+
+        try(Connection con = ConnectionFactory.getInstance().getConnection()) {
+
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM suppliers WHERE id = ?");
+            ps.setString(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+
+                return new Shop(rs.getString("id"), rs.getString("name"), rs.getString("street"), rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getString("country"), rs.getString("phone"), rs.getString("email"), rs.getString("manager"), rs.getString("owner"));
+
+            }
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+
+        }
+        return null;
+    }
+    //Used for shops
+    public Shop getById(Integer id) {
+
+        try(Connection con = ConnectionFactory.getInstance().getConnection()) {
+
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM shops WHERE id = ?");
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+
+                return new Shop(rs.getInt("id"), rs.getString("name"), rs.getString("street"), rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getString("country"), rs.getString("phone"), rs.getString("email"), rs.getString("manager"), rs.getString("owner"));
+
+            }
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+
+        }
         return null;
     }
 

@@ -1,9 +1,11 @@
 package com.revature.BubbleCraft.utils;
 
 
+import com.revature.BubbleCraft.daos.ShopDAO;
 import com.revature.BubbleCraft.daos.UserDAO;
 import com.revature.BubbleCraft.models.Shop;
 import com.revature.BubbleCraft.models.User;
+import com.revature.BubbleCraft.services.ShopService;
 import com.revature.BubbleCraft.services.UserService;
 import com.revature.BubbleCraft.ui.IMenu;
 import com.revature.BubbleCraft.ui.MainMenu;
@@ -14,18 +16,17 @@ import java.util.Scanner;
 public class Navigation implements IMenu {
     //Program constants
     protected final UserService userService = new UserService( new UserDAO() );
+    private static final ShopService shopService = new ShopService( new ShopDAO() );
 
     //Creating a store
     protected static Shop shop = LoadShop();
-    protected static final MainMenu mainMenu = new MainMenu();
-
 
 
     public static final Scanner input = new Scanner(System.in);
 
     //Goal implement a guest user when the customer first access the program.
     private static final User GUEST = GenerateGuestUser();
-    protected static User user = GUEST;
+    protected static User user;
 
     //Constructor
     public Navigation() {}
@@ -56,7 +57,7 @@ public class Navigation implements IMenu {
 
     //LOAD STORE
     public static Shop LoadShop() {
-        return new Shop("Bubble Craft", "123 Some Street", "City", "State", "12345", "USA", "1-xxx-xxxx", "ydyddtr@bc.org", "Hillary Jenkins", "Hillary Jenkins");
+        return shopService.getShopById(1); //TODO
     }
 
     //GEN GUEST USER //TODO

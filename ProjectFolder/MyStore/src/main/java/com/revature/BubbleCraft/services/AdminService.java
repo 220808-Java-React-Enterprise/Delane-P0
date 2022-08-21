@@ -2,8 +2,8 @@ package com.revature.BubbleCraft.services;
 
 import com.revature.BubbleCraft.daos.UserDAO;
 
-public class CustomerService extends UserService{
-    public CustomerService(UserDAO userDAO) {
+public class AdminService extends UserService{
+    public AdminService(UserDAO userDAO) {
         super(userDAO);
     }
 }

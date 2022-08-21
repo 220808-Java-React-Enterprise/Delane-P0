@@ -4,11 +4,10 @@ import com.revature.BubbleCraft.models.Admin;
 import com.revature.BubbleCraft.models.Customer;
 import com.revature.BubbleCraft.models.User;
 import com.revature.BubbleCraft.utils.database.ConnectionFactory;
+import sun.util.resources.LocaleData;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,18 +17,20 @@ public class UserDAO implements CrudDAO<User> {
     public void save(User obj) {
         try ( Connection con = ConnectionFactory.getInstance().getConnection() ){
 
-            PreparedStatement ps = con.prepareStatement("INSERT INTO users ( id, name, password, email, street, city, state, zip, country, payment_method, role) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            ps.setString(1, String.valueOf(UUID.randomUUID())); //Generating random UUID when user is saved to the db. //TODO: Move UUID creation to when user signup and verify against already saved UUIDs to avoid conflicts.
-            ps.setString(2, obj.getName());
-            ps.setString(3, obj.getPassword());
-            ps.setString(4, obj.getEmail());
-            ps.setString(5, obj.getStreet());
-            ps.setString(6, obj.getCity());
-            ps.setString(7, obj.getState());
-            ps.setString(8, obj.getZip());
-            ps.setString(9, obj.getCountry());
-            ps.setString(10, obj.getPhone());
-            ps.setString(11, obj.getRole());
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users ( id, name, password, email, street, city, state, zip, country, phone, role, registered, lastlogin) VALUES ( gen_random_uuid(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            //ps.setString(1, String.valueOf(UUID.randomUUID())); //Generating random UUID when user is saved to the db. //TODO: Move UUID creation to when user signup and verify against already saved UUIDs to avoid conflicts.
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getPassword());
+            ps.setString(3, obj.getEmail());
+            ps.setString(4, obj.getStreet());
+            ps.setString(5, obj.getCity());
+            ps.setString(6, obj.getState());
+            ps.setString(7, obj.getZip());
+            ps.setString(8, obj.getCountry());
+            ps.setString(9, obj.getPhone());
+            ps.setString(10, obj.getRole());
+            ps.setDate(11, Date.valueOf(LocalDate.now()));
+            ps.setDate(12, Date.valueOf(LocalDate.now()));
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -52,10 +53,10 @@ public class UserDAO implements CrudDAO<User> {
 
             if(rs.next()) {
                 if(!rs.getString("role").equals("ADMIN")) {
-                    return new Customer(rs.getString("name"), rs.getString("email"), rs.getString("password"));
+                    return new Customer(UUID.fromString(rs.getString("id")), rs.getString("name"), rs.getString("password"), rs.getString("email"), rs.getString("street"), rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getString("country"), rs.getString("phone"), rs.getString("role"), rs.getDate("registered").toLocalDate(), rs.getDate("lastlogin").toLocalDate());
+
                 }
                 else {
-
                     return new Admin(rs.getString("name"), rs.getString("email"), rs.getString("password"));
                 }
             }
@@ -120,4 +121,7 @@ public class UserDAO implements CrudDAO<User> {
         return "NOT FOUND";
 
     }
+
+    //Save Cart
+
 }

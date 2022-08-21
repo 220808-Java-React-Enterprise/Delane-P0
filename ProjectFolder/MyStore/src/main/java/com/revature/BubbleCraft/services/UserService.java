@@ -18,7 +18,9 @@ public class UserService {
     //Login method.
     public User Login(String email, String password) {
         User user = userDAO.getUserByEmailAndPassword( email, password);
-        if(!(user == null)) { return user; }
+        if(!(user == null)) {
+            return user;
+        }
         else {
             return user = new User("Guest"); //TODO: Change to default guest user.
         }

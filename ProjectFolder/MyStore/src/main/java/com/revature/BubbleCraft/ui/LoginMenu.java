@@ -21,8 +21,6 @@ public class LoginMenu extends Navigation implements IMenu {
     private  static final Shop SHOP = LoadShop();
     public static final Scanner input = new Scanner(System.in);
 
-    //Goal implement a guest user when the customer first access the program.
-   private static User user = new User(" Guest");
 
     //Constructor
     public LoginMenu(UserService userService) {
@@ -41,7 +39,7 @@ public class LoginMenu extends Navigation implements IMenu {
                                     "[2]\tSIGNUP\n" +
                                     "[Q]\tQUIT");
 
-                switch (new Scanner(System.in).next().toLowerCase().charAt(0)) {
+                switch (new Scanner(System.in).next().charAt(0)) {
                     case '1':
                         Login();
                         break;
@@ -49,8 +47,9 @@ public class LoginMenu extends Navigation implements IMenu {
                         Signup();
                         Login();
                         break;
+                    case 'Q':
                     case 'q':
-                        Quit();
+                        continue;
                     default:
                         System.out.println("Invalid entry, please input one of the options shown.");
                         continue;
@@ -58,7 +57,7 @@ public class LoginMenu extends Navigation implements IMenu {
                 }
 
                 //Calling the mainmenu
-                mainMenu.start();
+                new MainMenu().start();
             }
         }
 
@@ -111,7 +110,8 @@ public class LoginMenu extends Navigation implements IMenu {
                     case 1:
                         userService.register(user);
                         System.out.println("Moving to Login...\n");
-                        break Signup_loop;
+                        input.nextLine();   //Buffer to prevent the login email input from firing early.
+                        return;
                     case 2:
                         System.out.println("Restarting Signup...");
                         continue;
@@ -182,18 +182,19 @@ public class LoginMenu extends Navigation implements IMenu {
                 password = input.nextLine();
 
                 if(email.equalsIgnoreCase("q") || password.equalsIgnoreCase("q")) {
-                    Quit();
+                    return;
                 }
 
-                user = userService.Login( email, password);
+                Navigation.user = userService.Login( email, password);
 
                 if( user.getName().equalsIgnoreCase("Guest") ) {
 
                     System.out.println("User not found!\nPlease check if your email and password are correct.\n");
                 }
 
+                System.out.println(Navigation.user.getId());
 
-            }while(user.getName().equalsIgnoreCase("Guest"));
+            }while(Navigation.user.getId() == null); //TODO find a different while condition.
         }
 
     }

@@ -17,6 +17,7 @@ public class Product {
     private String type;
     private String color;
     private String scent;
+    private String size;
     private String weight;
     private String brand;
     private String description;
@@ -27,12 +28,13 @@ public class Product {
     //Constructors
     public Product() {}
 
-    public Product(Integer id, String name, String type, String color, String scent, String weight, String brand, String description, double sellingPrice, double costPrice, String supplier) {
+    public Product(Integer id, String name, String type, String color, String scent, String size, String weight, String brand, String description, double sellingPrice, double costPrice, String supplier) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.color = color;
         this.scent = scent;
+        this.size = size;
         this.weight = weight;
         this.brand = brand;
         this.description = description;
@@ -127,6 +129,14 @@ public class Product {
 
     public void setSupplier(String supplier) {
         this.supplier = supplier;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.revature.BubbleCraft.daos.UserDAO;
 import com.revature.BubbleCraft.services.UserService;
 import com.revature.BubbleCraft.ui.LoginMenu;
 import com.revature.BubbleCraft.ui.MainMenu;
+import com.revature.BubbleCraft.ui.ShoppingMenu;
 
 
 //MAIN CLASS
@@ -26,6 +27,9 @@ public class Main {
             throw new RuntimeException();
         }
         */
+
+        //Testing shopping menu
+        //new ShoppingMenu().start();
 
         //Creating new Login instance, which takes a UserService as a parameter, which then takes a UserDAO(database access object?) as a parameter.
         //The connection works like using a UPS between an outlet and an appliance?

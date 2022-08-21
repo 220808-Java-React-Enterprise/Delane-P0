@@ -9,6 +9,8 @@ package com.revature.BubbleCraft.models;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Order {
@@ -21,11 +23,14 @@ public class Order {
 
     private UUID userId;
     private int productId;
+    private Map<Product, Integer> productList;
     private int amount;
+    private int shopId;
 
     //Constructors
     public Order() {}
 
+    //ORDERS CONSTRUCTOR
     public Order(int id, LocalDate datePlaced, boolean fulfilled, LocalDate dateFulfilled) {
         this.id = id;
         this.datePlaced = datePlaced;
@@ -33,12 +38,26 @@ public class Order {
         this.dateFulfilled = dateFulfilled;
     }
 
-    public Order(int id, UUID userId, int productId, int amount) {
-        this.id = id;
+    //ORDERED PRODUCTS CONSTRUCTOR
+    public Order(int opid, UUID userId, int productId, int amount, int id) {
+        this.opId = opid;
         this.userId = userId;
         this.productId = productId;
         this.amount = amount;
+        this.id = id;
     }
+
+    //Combined
+    public Order(int id, int opId, LocalDate datePlaced, boolean fulfilled, LocalDate dateFulfilled, UUID userId, Map<Product, Integer> productList) {
+        this.id = id;
+        this.opId = opId;
+        this.datePlaced = datePlaced;
+        this.fulfilled = fulfilled;
+        this.dateFulfilled = dateFulfilled;
+        this.userId = userId;
+        this.productList = productList;
+    }
+
 
     //GETTERS & SETTERS
 
@@ -99,7 +118,35 @@ public class Order {
         this.amount = amount;
     }
 
+    public int getOpId() {
+        return opId;
+    }
+
+    public void setOpId(int opId) {
+        this.opId = opId;
+    }
+
+    public Map<Product, Integer> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(Map<Product, Integer> productList) {
+        this.productList = productList;
+    }
+
+    public int getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
+
     //METHODS
+    public void PlaceOrder(Order order) {
+
+
+    }
 
 
 
@@ -120,7 +167,8 @@ public class Order {
 
             default: return "Order{" +
                      "id=" + id +
-                     ", datePlaced=" + datePlaced +
+                     ", shop= " + shopId +
+                    ", datePlaced=" + datePlaced +
                      ", fulfilled=" + fulfilled +
                      ", dateFulfilled=" + dateFulfilled +
                      '}';

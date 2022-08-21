@@ -6,10 +6,13 @@ Last updated: 08/10/2022
 * */
 package com.revature.BubbleCraft.models;
 
+import java.time.LocalDate;
+import java.util.UUID;
+
 public class User {
     //Data fields
     //Temp testing values!
-    private String id;  //TODO: change to UUID.
+    private UUID id;  //TODO: change to UUID.
     private String name;
     private String password;
     private String email;
@@ -21,6 +24,8 @@ public class User {
     private String phone = "";
     //private String payment_method = ""; //Implement if time allows.
     private String role = "";
+    private LocalDate registered;
+    private LocalDate lastlogin;
 
 
     //Constructors
@@ -34,13 +39,31 @@ public class User {
         this.email = email;
         this.password = password;
     }
+    //Full constructor for reading from DB
+    public User(UUID id, String name, String password, String email, String street, String city, String state, String zip, String country, String phone, String role, LocalDate registered, LocalDate lastlogin) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.country = country;
+        this.phone = phone;
+        this.role = role;
+        this.registered = registered;
+        this.lastlogin = lastlogin;
+    }
+
+
 
     //Getters and Setters
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -122,6 +145,22 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public LocalDate getRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(LocalDate registered) {
+        this.registered = registered;
+    }
+
+    public LocalDate getLastlogin() {
+        return lastlogin;
+    }
+
+    public void setLastlogin(LocalDate lastlogin) {
+        this.lastlogin = lastlogin;
     }
 
     //Methods

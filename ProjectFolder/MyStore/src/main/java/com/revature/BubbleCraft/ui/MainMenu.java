@@ -12,7 +12,7 @@ import com.revature.BubbleCraft.utils.Navigation;
 
 import java.util.Scanner;
 
-public class MainMenu implements IMenu {
+public class MainMenu extends Navigation implements IMenu {
 
     //Constructor
     public MainMenu() {}
@@ -24,7 +24,7 @@ public class MainMenu implements IMenu {
 
         do {
             System.out.println("This is the Main Menu");
-            System.out.println("Welcome to " + "Bubble Craft " + "[Username]" + "!");
+            System.out.println("Welcome to " + shop.getName() + user.getName() + "!");
             System.out.println("Enter a number to select from the options below;\n");
             System.out.println("[1] Account\t\t[4] View Orders\n" +
                     "[2] Shop\t\t[5] View Order History\n" +
