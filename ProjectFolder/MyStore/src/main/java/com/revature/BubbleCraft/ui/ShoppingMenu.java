@@ -26,32 +26,36 @@ public class ShoppingMenu extends Navigation implements IMenu{
     public void start() {
 
         Scanner input = new Scanner(System.in);
+        ShoppingMenu:
+        {
+            do {
+                System.out.println("This is the Shopping Menu");
+                System.out.println("Welcome to the shopping Panel " + user.getName() +
+                        ".\nHere you can view and add products to your cart.");
+                System.out.println("Enter a letter to view product details.\n" +
+                        "Enter a number to add a product directly to your cart.\n" +
+                        "Enter [0] to return to the main menu or [C] to checkout:");
 
-        do {
-            System.out.println("This is the Shopping Menu");
-            System.out.println("Welcome to the shopping Panel " + user.getName() +
-                            ".\nHere you can view and add products to your cart.");
-            System.out.println("Enter a letter to view product details.\n" +
-                            "Enter a number to add a product directly to your cart.\n" +
-                            "Enter [0] to return to the main menu or [001] to checkout:");
+                DisplayProducts();
 
-            DisplayProducts();
+                String menuChoice = input.nextLine();
 
-            int menuChoice = Integer.parseInt(input.next());
-
-            if( menuChoice == 0 ) { return; }
-            else if (menuChoice == 001) {
-                try {
-                    Checkout(customer);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (menuChoice.charAt(0) == '0') {
+                    break ShoppingMenu;
+                } else if (Character.isDigit(menuChoice.charAt(0))) {
+                    ProductSelection(productService.getProductList(), Integer.parseInt(String.valueOf(menuChoice.charAt(0))));
+                } else if (menuChoice.charAt(0) == 'C' || menuChoice.charAt(0) == 'c') {
+                    try {
+                        Checkout(customer);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            ProductSelection(productService.getProductList(), menuChoice);
+            } while (true);
+        }
 
-        } while (true);
-
+        return;
 
     }
 
@@ -61,14 +65,17 @@ public class ShoppingMenu extends Navigation implements IMenu{
         //TODO: Consider turning thr user into a customer at the start of the main menu,
         //TODO: find a better wau to deal with the menu choice.
 
-        System.out.println("How many do you want to add?\nAmount:\t");
-        Integer amount = Integer.parseInt(input.next());
 
         //Subtracting 1 because of the offset product display.
         if( menuChoice - 1 < productList.size() ) {
+
+            System.out.println("How many do you want to add?\nAmount:\t");
+            Integer amount = Integer.parseInt(input.next());
+
             customer.addToCart(productList.get(menuChoice - 1), amount);
+            System.out.println( amount + " " + productList.get(menuChoice - 1).getName() + " added to cart!\n");
         }
-        else { System.out.println("Hey, that's bot an option!"); }
+        else { System.out.println("Hey, that's bot an option!\n"); }
 
     }
 
@@ -77,10 +84,10 @@ public class ShoppingMenu extends Navigation implements IMenu{
 
         List<Product> productList = productService.getProductList();
         int i = 0;
+        System.out.println( "\n\tNAME\t\t\tPRICE"); //Header
 
         for(Product p: productList) {
             i++;    //counter for product list display.
-            System.out.println( "\n\tNAME\t\t\t\t\t\tPRICE");
             System.out.println( "[" + i + "]\t" + p.getName() + "\t\t$" + p.getSellingPrice() );
 
         }
@@ -88,9 +95,6 @@ public class ShoppingMenu extends Navigation implements IMenu{
     }
 
     public void Checkout(Customer customer) throws IOException {
-        System.out.println("Checkout\n" +
-                "Your item list:\n" +
-                "Name\t\tAmount\t\tPrice");
 
         customer.viewCart();
 
