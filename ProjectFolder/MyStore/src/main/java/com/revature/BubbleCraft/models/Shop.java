@@ -247,7 +247,6 @@ public class Shop {
 
 
 
-
     //METHODS
     protected void Restock() {}
 

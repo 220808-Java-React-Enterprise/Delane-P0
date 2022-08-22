@@ -30,9 +30,9 @@ public class ShoppingMenu extends Navigation implements IMenu{
         ShoppingMenu:
         {
             do {
-                System.out.println("H4" + shop.getInventory());                System.out.println("This is the Shopping Menu");
-                System.out.println("Welcome to the shopping Panel " + user.getName() +
-                        ".\nHere you can view and add products to your cart.");
+                System.out.println("\n\t\tSHOPPING MENU");
+                System.out.println("Welcome to the Shopping Menu " + user.getName() +
+                        ". Here you can view and add products to your cart.");
                 System.out.println("Enter a letter to view product details.\n" +
                         "Enter a number to add a product directly to your cart.\n" +
                         "Enter [0] to return to the main menu or [C] to checkout:");
@@ -40,27 +40,34 @@ public class ShoppingMenu extends Navigation implements IMenu{
                 DisplayProducts();
 
                 String menuChoice = input.nextLine();
+                try {
 
-                if (menuChoice.charAt(0) == '0') {
+                    if (menuChoice.charAt(0) == '0') {
 
-                    break ShoppingMenu;
+                        break ShoppingMenu;
 
-                } else if (Character.isDigit(menuChoice.charAt(0))) {
+                    } else if (Character.isDigit(menuChoice.charAt(0))) {
 
-                    ProductSelection( productService.getProductList(), Integer.parseInt(menuChoice) );
+                        ProductSelection(productService.getProductList(), Integer.parseInt(menuChoice));
 
-                } else if (menuChoice.charAt(0) == 'C' || menuChoice.charAt(0) == 'c') {
+                    } else if (menuChoice.charAt(0) == 'C' || menuChoice.charAt(0) == 'c') {
 
-                    try {
+                        try {
 
-                        Checkout(customer);
+                            Checkout(customer);
 
-                    } catch (IOException e) {
+                        } catch (IOException e) {
 
-                        e.printStackTrace();
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        continue;
                     }
+                } catch (StringIndexOutOfBoundsException e) {
+                    continue;
 
-                } else { continue; }
+                }
 
             } while (true);
         }
@@ -75,8 +82,6 @@ public class ShoppingMenu extends Navigation implements IMenu{
         //TODO: Consider turning thr user into a customer at the start of the main menu,
         //TODO: find a better wau to deal with the menu choice.
 
-        System.out.println("H4" + shop.getInventory());
-
         //Subtracting 1 to make up for the offset of having the menu start at 1.
         int offSet = menuChoice - 1;
 
@@ -86,7 +91,7 @@ public class ShoppingMenu extends Navigation implements IMenu{
             Integer amount = Integer.parseInt(input.next());
 
             customer.addToCart(productList.get(offSet), amount);
-            System.out.println( amount + " " + productList.get(offSet).getName() + " added to cart!\n");
+            System.out.println( amount + " " + productList.get(offSet).getName() + "'s added to your cart!\n");
         }
         else { System.out.println("Hey, that's bot an option!\n"); }
 
@@ -98,7 +103,6 @@ public class ShoppingMenu extends Navigation implements IMenu{
         List<Product> productList = productService.getProductList();
         int i = 0;
         System.out.println( "\n\tNAME\t\t\tPRICE"); //Header
-        System.out.println("H4" + shop.getInventory());
 
         for(Product p: productList) {
             i++;    //counter for product list display.
@@ -112,8 +116,7 @@ public class ShoppingMenu extends Navigation implements IMenu{
 
         customer.viewCart();
 
-        System.out.println("\n[P] Place Order\t\t\t[R] Return" +
-                shop.getInventory());
+        System.out.println("\n[P] Place Order\t\t\t[R] Return");
 
         switch(input.next()) {
             case "P":
@@ -123,6 +126,7 @@ public class ShoppingMenu extends Navigation implements IMenu{
                 customer.clearCart();
 
                 shop.saveInventoryToDB();   //TODO: temp remove after finding a better place.
+                System.out.println("Order placed!\n");
                 return;
             case "R":
             case "r":

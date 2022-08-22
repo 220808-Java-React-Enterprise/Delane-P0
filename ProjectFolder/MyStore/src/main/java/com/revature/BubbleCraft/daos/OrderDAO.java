@@ -7,6 +7,7 @@ import com.revature.BubbleCraft.utils.database.ConnectionFactory;
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,8 @@ public class OrderDAO implements  CrudDAO<Order>{
         } catch(SQLException e) {
             e.printStackTrace();
 
-        }}
+        }
+    }
 
     @Override
     public void update(Order ord) {
@@ -67,6 +69,76 @@ public class OrderDAO implements  CrudDAO<Order>{
 
     @Override
     public List<Order> getAll() {
+
+        List<Order> list = new ArrayList<>();
+
+        try(Connection con = ConnectionFactory.getInstance().getConnection()) {
+
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM orders");
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                list.add( new Order(rs.getInt("id"), rs.getInt("shop_id"), rs.getDate("dateplaced").toLocalDate(), rs.getBoolean("fulfilled"), rs.getDate("datefulfilled").toLocalDate() ) );
+
+            }
+            return list;
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+
+        }
         return null;
     }
+    public List<Order> getAllOrdersByShopId( int shopId ) {
+
+        List<Order> list = new ArrayList<>();
+
+        try(Connection con = ConnectionFactory.getInstance().getConnection()) {
+
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM orders WHERE shop_id= ?");
+            ps.setInt(1, shopId);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                list.add( new Order(rs.getInt("id"), rs.getInt("shop_id"), rs.getDate("dateplaced").toLocalDate(), rs.getBoolean("fulfilled"), rs.getDate("datefulfilled").toLocalDate() ) );
+
+            }
+            return list;
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+
+        }
+        return null;
+
+    }
+
+    public List<Order> getAllOrderDetailsByUserId() {
+
+
+        List<Order> list = new ArrayList<>();
+
+        try(Connection con = ConnectionFactory.getInstance().getConnection()) {
+
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM orderedproducts WHERE user_id= ?");
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                list.add( new Order(rs.getInt("id"), rs.getInt("shop_id"), rs.getDate("dateplaced").toLocalDate(), rs.getBoolean("fulfilled"), rs.getDate("datefulfilled").toLocalDate() ) );
+
+            }
+            return list;
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+
+        }
+
+        return null;
+
+    }
+
+
 }

@@ -31,8 +31,9 @@ public class Order {
     public Order() {}
 
     //ORDERS CONSTRUCTOR
-    public Order(int id, LocalDate datePlaced, boolean fulfilled, LocalDate dateFulfilled) {
+    public Order(int id, int shopId, LocalDate datePlaced, boolean fulfilled, LocalDate dateFulfilled) {
         this.id = id;
+        this.shopId = shopId;
         this.datePlaced = datePlaced;
         this.fulfilled = fulfilled;
         this.dateFulfilled = dateFulfilled;

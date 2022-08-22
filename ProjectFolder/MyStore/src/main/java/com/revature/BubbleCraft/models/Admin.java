@@ -23,4 +23,36 @@ public class Admin extends User {
     public Admin(UUID id, String name, String password, String email, String street, String city, String state, String zip, String country, String phone, String role, LocalDate registered, LocalDate lastlogin) {
         super( id, name, password, email, street, city, state, zip, country, phone, role, registered, lastlogin );
     }
+
+    //GETTERS & SETTERS
+
+    public int getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
+
+    public Shop getStationedStore() {
+        return stationedStore;
+    }
+
+    public void setStationedStore(Shop stationedStore) {
+        this.stationedStore = stationedStore;
+    }
+
+
+    //METHODS
+
+
+
+
+
+    //OVERRIDES
+
+
+
+
+
 }

@@ -81,15 +81,22 @@ public class Customer extends User{
 
     //VIEW CART
     public void viewCart() {
-        System.out.println("\t\t\t\tCart\n" +
+        double cartTotal = 0;
+        System.out.println("\t\t\t\tCART\n" +
                 "Your item list:\n" +
-                "Name\t\tAmount\t\tPrice");
+                "\tName\t\tAmount\t\tPrice");
 
+        int i = 0;
         for(Map.Entry<Product, Integer> product: cart.entrySet()) {
-            System.out.println( product.getKey().getName() + "\t\t" +
-                    product.getValue() + "\t\t$" + product.getKey().getSellingPrice() * product.getValue() );
+            i++;
+            double cost = product.getKey().getSellingPrice() * product.getValue();
+            System.out.println( "[" + i + "]" + product.getKey().getName() + "\t\t" +
+                    product.getValue() + "\t\t$" + cost );
+            cartTotal += cost;
 
         }
+
+        System.out.println("\t\t\t\tTotal Price: " + cartTotal);
 
     }
 
