@@ -12,6 +12,7 @@ import com.revature.BubbleCraft.models.*;
 import com.revature.BubbleCraft.services.UserService;
 import com.revature.BubbleCraft.utils.Navigation;
 import com.revature.BubbleCraft.utils.customexceptions.NotValidException;
+import com.revature.BubbleCraft.utils.customexceptions.NullUserException;
 
 public class LoginMenu extends Navigation implements IMenu {
 
@@ -31,6 +32,12 @@ public class LoginMenu extends Navigation implements IMenu {
     @Override
     public void start() {
 
+        /*User guest = new User();
+        guest.setName("Guest");
+
+        System.out.println(guest + guest.getName());
+        System.out.println("Hello " + guest.getName() + ", welcome to " + storeName + "!");
+        */
 
         StartScreen: {
             while (true) {
@@ -54,20 +61,23 @@ public class LoginMenu extends Navigation implements IMenu {
                         System.out.println("Invalid entry, please input one of the options shown.");
                         continue;
 
+                }//Switch end
+                try {
+                    if (!(user.getId() == null || user.getRole().equals("ADMIN"))) {
+                        //Calling the mainmenu
+                        new MainMenu().start();
+                    } else if ((!(user.getId() == null)) && user.getRole().equals("ADMIN")) {
+                        //Calling adminmenu
+                        new AdminMenu().start();
+                    }
+                } catch (NullPointerException e) {
+                    continue;
+
                 }
+            }//while loop end.
+        }// break label end
 
-                //Calling the mainmenu
-                new MainMenu().start();
-            }
-        }
-
-        /*User guest = new User();
-        guest.setName("Guest");
-
-        System.out.println(guest + guest.getName());
-        System.out.println("Hello " + guest.getName() + ", welcome to " + storeName + "!");
-        */
-    }
+    }//Start Method end.
 
     //QUIT
     public void Quit() {
@@ -89,7 +99,8 @@ public class LoginMenu extends Navigation implements IMenu {
     public void Signup() {
 
         System.out.println("Signup is in progress.");
-        User user = new User();
+        user = new User();
+        user.setRole("GUEST");
 
         Signup_loop:
         {
@@ -116,7 +127,7 @@ public class LoginMenu extends Navigation implements IMenu {
                         System.out.println("Restarting Signup...");
                         continue;
                     case 3:
-                        Quit();
+                        return;
                     default:
                         System.out.println("Reloading Signup...");
 
@@ -142,7 +153,7 @@ public class LoginMenu extends Navigation implements IMenu {
             if( v.equalsIgnoreCase("q")) {
                 Quit();
             }
-            else {
+            else if( !v.equals("BCadMIN") ){
                 try{
                     if( s.equalsIgnoreCase("email") ){ valid = userService.isValidEmail( v ); }
                     else if( s.equalsIgnoreCase("username") ){ valid = userService.isValidUserName( v ); }
@@ -153,7 +164,11 @@ public class LoginMenu extends Navigation implements IMenu {
 
                     System.out.println( e.getMessage() );
                 }
+            }
+            else if( !user.getRole().equals("ADMIN") ){
 
+                System.out.println("Welcome new administrator, let's finish your sign up!");
+                user.setRole("ADMIN");
             }
 
         } while(!valid);
@@ -161,6 +176,40 @@ public class LoginMenu extends Navigation implements IMenu {
         return v;
 
     }
+    //ADMIN SIGNUP
+    private void AdminSignup() {
+        do {
+            System.out.println("SIGN UP!" +
+                    "\nEnter your information below to sign up.");
+
+            user.setEmail(Validate("Email"));
+            user.setName(Validate("Username"));
+            user.setPassword(Validate("Password"));
+
+            System.out.println("Is this correct?\n" + user.toString(0) +
+                    "\n[1] Yes, continue to login!" +
+                    "\n[2] No, redo the signup!" +
+                    "\n[3] Quit, your signup information will not be saved!");
+
+            switch (input.nextInt()) {
+                case 1:
+                    userService.register(user);
+                    System.out.println("Moving to Login...\n");
+                    input.nextLine();   //Buffer to prevent the login email input from firing early.
+                    return;
+                case 2:
+                    System.out.println("Restarting Signup...");
+                    continue;
+                case 3:
+                    Quit();
+                default:
+                    System.out.println("Reloading Signup...");
+
+            }
+
+        } while (true);
+
+    }   //Unused
 
 
     //LOGIN
@@ -192,7 +241,7 @@ public class LoginMenu extends Navigation implements IMenu {
                     System.out.println("User not found!\nPlease check if your email and password are correct.\n");
                 }
 
-                System.out.println(Navigation.user.getId());
+                System.out.println(); //for spacing
 
             }while(Navigation.user.getId() == null); //TODO find a different while condition.
         }

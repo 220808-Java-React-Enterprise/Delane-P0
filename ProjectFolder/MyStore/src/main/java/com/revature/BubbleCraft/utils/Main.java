@@ -8,11 +8,8 @@ Last updated: 08/10/2022
 package com.revature.BubbleCraft.utils;
 
 import com.revature.BubbleCraft.daos.UserDAO;
-import com.revature.BubbleCraft.models.Shop;
 import com.revature.BubbleCraft.services.UserService;
 import com.revature.BubbleCraft.ui.LoginMenu;
-import com.revature.BubbleCraft.ui.MainMenu;
-import com.revature.BubbleCraft.ui.ShoppingMenu;
 
 
 //MAIN CLASS
@@ -28,9 +25,9 @@ public class Main {
             throw new RuntimeException();
         }
         */
-        //Testing shop
-        Shop qqq = Navigation.LoadShop();
-        qqq.viewInventory();
+        //Testing shop inventory
+        //Shop qqq = Navigation.LoadShop();
+        //qqq.viewInventory();
 
         //Testing shopping menu
         //new ShoppingMenu().start();

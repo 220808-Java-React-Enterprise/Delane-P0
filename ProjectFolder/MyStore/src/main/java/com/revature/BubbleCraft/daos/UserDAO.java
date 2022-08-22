@@ -57,7 +57,8 @@ public class UserDAO implements CrudDAO<User> {
 
                 }
                 else {
-                    return new Admin(rs.getString("name"), rs.getString("email"), rs.getString("password"));
+                    return new Admin(UUID.fromString(rs.getString("id")), rs.getString("name"), rs.getString("password"), rs.getString("email"), rs.getString("street"), rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getString("country"), rs.getString("phone"), rs.getString("role"), rs.getDate("registered").toLocalDate(), rs.getDate("lastlogin").toLocalDate());
+
                 }
             }
 
@@ -74,6 +75,31 @@ public class UserDAO implements CrudDAO<User> {
 
     public User getById(String id) {
         return null;
+    }
+    public User getUserByUsername(String username) {
+        try ( Connection con = ConnectionFactory.getInstance().getConnection()){
+
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE name = ?");
+            ps.setString(1, username);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+                if(!rs.getString("role").equals("ADMIN")) {
+                    return new Customer(UUID.fromString(rs.getString("id")), rs.getString("name"), rs.getString("password"), rs.getString("email"), rs.getString("street"), rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getString("country"), rs.getString("phone"), rs.getString("role"), rs.getDate("registered").toLocalDate(), rs.getDate("lastlogin").toLocalDate());
+
+                }
+                else {
+                    return new Admin(UUID.fromString(rs.getString("id")), rs.getString("name"), rs.getString("password"), rs.getString("email"), rs.getString("street"), rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getString("country"), rs.getString("phone"), rs.getString("role"), rs.getDate("registered").toLocalDate(), rs.getDate("lastlogin").toLocalDate());
+
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
     public List<User> getAll() {

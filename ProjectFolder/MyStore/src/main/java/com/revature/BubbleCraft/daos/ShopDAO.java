@@ -143,18 +143,15 @@ public class ShopDAO implements CrudDAO<Shop> {
     }
     public void saveShopInventory(Map<Integer,Integer> inventory, int shopId) {
 
-        System.out.println("H3");
         try ( Connection con = ConnectionFactory.getInstance().getConnection() ){
 
-            System.out.println("H4");
             for(Map.Entry<Integer,Integer> map: inventory.entrySet()) {
-                PreparedStatement ps = con.prepareStatement("INSERT INTO distributions VALUES ( ? ) WHERE shop_id = ? AND product_id = ?");
+                PreparedStatement ps = con.prepareStatement("UPDATE distributions SET amount= ? WHERE shop_id= ? AND product_id= ?");
                 ps.setInt(1, map.getValue());
                 ps.setInt(2, shopId);
                 ps.setInt(3, map.getKey());
 
                 ps.executeUpdate();
-                System.out.println("H5");
             }
 
         } catch (SQLException e) {

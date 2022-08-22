@@ -24,12 +24,13 @@ public class ShoppingMenu extends Navigation implements IMenu{
 
     @Override
     public void start() {
+        shop.getInventoryFromDB();  //still temp
 
         Scanner input = new Scanner(System.in);
         ShoppingMenu:
         {
             do {
-                System.out.println("This is the Shopping Menu");
+                System.out.println("H4" + shop.getInventory());                System.out.println("This is the Shopping Menu");
                 System.out.println("Welcome to the shopping Panel " + user.getName() +
                         ".\nHere you can view and add products to your cart.");
                 System.out.println("Enter a letter to view product details.\n" +
@@ -58,7 +59,8 @@ public class ShoppingMenu extends Navigation implements IMenu{
 
                         e.printStackTrace();
                     }
-                }
+
+                } else { continue; }
 
             } while (true);
         }
@@ -73,15 +75,18 @@ public class ShoppingMenu extends Navigation implements IMenu{
         //TODO: Consider turning thr user into a customer at the start of the main menu,
         //TODO: find a better wau to deal with the menu choice.
 
+        System.out.println("H4" + shop.getInventory());
 
-        //Subtracting 49 to make up for the offset of turning a char into an int..
-        if( menuChoice - 49 < productList.size() ) {
+        //Subtracting 1 to make up for the offset of having the menu start at 1.
+        int offSet = menuChoice - 1;
+
+        if( offSet < productList.size() ) {
 
             System.out.println("How many do you want to add?\nAmount:\t");
             Integer amount = Integer.parseInt(input.next());
 
-            customer.addToCart(productList.get(menuChoice - 49), amount);
-            System.out.println( amount + " " + productList.get(menuChoice - 49).getName() + " added to cart!\n");
+            customer.addToCart(productList.get(offSet), amount);
+            System.out.println( amount + " " + productList.get(offSet).getName() + " added to cart!\n");
         }
         else { System.out.println("Hey, that's bot an option!\n"); }
 
@@ -93,6 +98,7 @@ public class ShoppingMenu extends Navigation implements IMenu{
         List<Product> productList = productService.getProductList();
         int i = 0;
         System.out.println( "\n\tNAME\t\t\tPRICE"); //Header
+        System.out.println("H4" + shop.getInventory());
 
         for(Product p: productList) {
             i++;    //counter for product list display.
@@ -106,19 +112,31 @@ public class ShoppingMenu extends Navigation implements IMenu{
 
         customer.viewCart();
 
-        System.out.println("\n[P] Place Order\t\t\t[R] Return");
+        System.out.println("\n[P] Place Order\t\t\t[R] Return" +
+                shop.getInventory());
 
         switch(input.next()) {
             case "P":
             case "p":
                 orderService.placeOrder( CreateOrder(customer) );
+                RemoveSoldStock(customer);
                 customer.clearCart();
+
+                shop.saveInventoryToDB();   //TODO: temp remove after finding a better place.
                 return;
             case "R":
             case "r":
                 return;
             default:
 
+        }
+
+    }
+
+    public void RemoveSoldStock(Customer customer) {
+
+        for(Map.Entry<Product,Integer> cart: customer.getCart().entrySet()) {
+            shop.removeFromInventory( cart.getKey().getId(), cart.getValue());
         }
 
     }

@@ -11,8 +11,7 @@ import java.util.UUID;
 
 public class User {
     //Data fields
-    //Temp testing values!
-    private UUID id;  //TODO: change to UUID.
+    private UUID id;
     private String name;
     private String password;
     private String email;

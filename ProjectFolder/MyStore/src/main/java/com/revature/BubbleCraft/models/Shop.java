@@ -196,9 +196,22 @@ public class Shop {
         this.inventory.put( int1, int2);
 
     }
+    public void removeFromInventory(Integer product, Integer amount) {
+
+        if( this.inventory.containsKey( product ) ) {
+            if( this.inventory.get( product ) > amount ) {
+                this.inventory.put( product, this.inventory.get( product ) - amount );
+
+            } else if ( this.inventory.get( product ) <= amount ) {
+                this.inventory.remove( product );
+            } else { System.out.println("Another one got through the net...");}
+
+        }
+
+
+    }
 
     public void getInventoryFromDB() {
-        System.out.println("He1?");
         this.inventory = shopService.getShopInventory( this.id );
 
     }
