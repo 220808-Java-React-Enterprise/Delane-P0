@@ -28,7 +28,7 @@ public class Product {
     //Constructors
     public Product() {}
 
-    public Product(Integer id, String name, String type, String color, String scent, String size, String weight, String brand, String description, double sellingPrice, double costPrice, String supplier) {
+    public Product(Integer id, String name, String type, String color, String scent, String size, String weight, String brand, String description, double sellingPrice, double costPrice) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -40,7 +40,6 @@ public class Product {
         this.description = description;
         this.sellingPrice = sellingPrice;
         this.costPrice = costPrice;
-        this.supplier = supplier;
     }
 
     public Integer getId() {

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ProductDAO implements CrudDAO<Product> {
     @Override
@@ -23,12 +24,12 @@ public class ProductDAO implements CrudDAO<Product> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(UUID id) {
 
     }
 
     @Override
-    public Product getById(String id) {
+    public Product getById(UUID id) {
         return null;
     }
 
@@ -43,7 +44,7 @@ public class ProductDAO implements CrudDAO<Product> {
 
             while( rs.next() ) {
 
-                Product product = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("type"), rs.getString("color"), rs.getString("scent"), rs.getString("size"), rs.getString("weight"), rs.getString("brand"), rs.getString("description"), rs.getDouble("selling_price"), rs.getDouble("cost_price"), rs.getString("supplier_id"));
+                Product product = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("type"), rs.getString("color"), rs.getString("scent"), rs.getString("size"), rs.getString("weight"), rs.getString("brand"), rs.getString("description"), rs.getDouble("selling_price"), rs.getDouble("cost_price"));
 
                 productList.add(product);
 

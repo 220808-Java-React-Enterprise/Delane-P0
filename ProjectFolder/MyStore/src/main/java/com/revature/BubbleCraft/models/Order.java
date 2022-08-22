@@ -8,15 +8,14 @@ Last updated: 08/10/2022
 package com.revature.BubbleCraft.models;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class Order {
     //Data fields
-    private int id;
+    private UUID id;
     private int opId; //TODO: finish setting ordered products id.
+    private double totalCost;
     private LocalDate datePlaced;
     private boolean fulfilled;
     private LocalDate dateFulfilled;
@@ -31,43 +30,45 @@ public class Order {
     public Order() {}
 
     //ORDERS CONSTRUCTOR
-    public Order(int id, int shopId, LocalDate datePlaced, boolean fulfilled, LocalDate dateFulfilled) {
+    public Order(UUID id, int shopId, UUID userId, LocalDate datePlaced, double totalCost, boolean fulfilled) {
         this.id = id;
         this.shopId = shopId;
+        this.userId = userId;
         this.datePlaced = datePlaced;
+        this.totalCost = totalCost;
         this.fulfilled = fulfilled;
-        this.dateFulfilled = dateFulfilled;
     }
 
     //ORDERED PRODUCTS CONSTRUCTOR
-    public Order(int opid, UUID userId, int productId, int amount, int id) {
+    public Order(int opid, UUID userId, int productId, int amount, double totalCost, UUID id) {
         this.opId = opid;
         this.userId = userId;
         this.productId = productId;
         this.amount = amount;
+        this.totalCost = totalCost;
         this.id = id;
     }
 
     //Combined
-    public Order(int id, int opId, LocalDate datePlaced, boolean fulfilled, LocalDate dateFulfilled, UUID userId, Map<Product, Integer> productList) {
+    public Order(UUID id, int opId, LocalDate datePlaced, double totalCost, boolean fulfilled, LocalDate dateFulfilled, UUID userId, Map<Product, Integer> productList) {
         this.id = id;
         this.opId = opId;
         this.datePlaced = datePlaced;
+        this.totalCost = totalCost;
         this.fulfilled = fulfilled;
         this.dateFulfilled = dateFulfilled;
         this.userId = userId;
         this.productList = productList;
     }
 
-
     //GETTERS & SETTERS
 
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -141,6 +142,14 @@ public class Order {
 
     public void setShopId(int shopId) {
         this.shopId = shopId;
+    }
+
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
     }
 
     //METHODS

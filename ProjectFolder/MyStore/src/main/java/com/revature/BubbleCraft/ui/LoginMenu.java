@@ -8,6 +8,8 @@ package com.revature.BubbleCraft.ui;
 
 //IMPORTS
 import java.util.Scanner;
+import java.util.UUID;
+
 import com.revature.BubbleCraft.models.*;
 import com.revature.BubbleCraft.services.UserService;
 import com.revature.BubbleCraft.utils.Navigation;
@@ -92,22 +94,16 @@ public class LoginMenu extends Navigation implements IMenu {
 
     }
 
-    //LOAD STORE --temporary.
-    public static Shop LoadShop() {
-        return new Shop("Bubble Craft", "123 Some Street", "City", "State", "12345", "USA", "1-xxx-xxxx", "ydyddtr@bc.org", "Hillary Jenkins", "Hillary Jenkins");
-    }
-
     //SIGNUP
     public void Signup() {
 
-        System.out.println("Signup is in progress.");
         user = new User();
         user.setRole("GUEST");
 
         Signup_loop:
         {
             do {
-                System.out.println("SIGN UP!" +
+                System.out.println("\t\tSIGN UP!" +
                         "\nEnter your information below to sign up.");
 
                 user.setEmail(Validate("Email"));

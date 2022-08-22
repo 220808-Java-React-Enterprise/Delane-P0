@@ -4,11 +4,12 @@ import com.revature.BubbleCraft.daos.OrderDAO;
 import com.revature.BubbleCraft.models.Admin;
 import com.revature.BubbleCraft.models.Order;
 import com.revature.BubbleCraft.models.Shop;
+import com.revature.BubbleCraft.models.User;
 import com.revature.BubbleCraft.services.OrderService;
 import com.revature.BubbleCraft.utils.Navigation;
+import com.revature.BubbleCraft.utils.customexceptions.NullUserException;
 
 import java.util.List;
-import java.util.Map;
 
 public class AdminMenu extends Navigation implements IMenu{
     private static Admin admin = (Admin) user;
@@ -24,7 +25,7 @@ public class AdminMenu extends Navigation implements IMenu{
                         "Here you can handle and the view the workings of your shop.\n" +
                         "Choose from the options below, enter the corresponding number to move to that menu:");
 
-                System.out.println("[1] Account\n[2] Shop Information\n[3] All Orders\n[4] Restock\n[5] Add New Product\n[X] Logout");
+                System.out.println("[1] Account\n[2] Shop Information\n[3] All Orders\n[4] Restock\n[5] Add New Product\n[6] Lookup users\n[X] Logout");
                 switch (input.next().charAt(0)) {
                     case '1':
                         break;
@@ -36,7 +37,7 @@ public class AdminMenu extends Navigation implements IMenu{
                         break;
                     case '5':
                         break;
-                    case '6':
+                    case '6':   LookUpCustomerByUsername();
                         break;
                     case 'x':
                     case 'X':
@@ -77,7 +78,7 @@ public class AdminMenu extends Navigation implements IMenu{
                     System.out.println("How much are you adding?");
                     int amount = input.nextInt();
 
-                    shop.Restock(product, amount);
+                    shop.RestockInventory(product, amount);
 
                     System.out.println("Restocked " + amount + " items to the shop's inventory!");
 
@@ -89,7 +90,7 @@ public class AdminMenu extends Navigation implements IMenu{
 
                 }
 
-            } else if (process.matches("details")) {
+            } else if (process.matches(".details")) {
             } else {
                 System.out.println("Process Unknown! Did you misspell a word?");
 
@@ -116,6 +117,29 @@ public class AdminMenu extends Navigation implements IMenu{
 
     }
     public void DisplayOrderDetails() {}
+
+    public void LookUpCustomerByUsername() {
+        do {
+            System.out.println("Enter the username of the customer you would like to find: \n[R] Return");
+            String username = input.next();
+
+            if (username.charAt(0) == 'r' || username.charAt(0) == 'R') {
+                return;
+            }
+
+            try {//TODO: go into userservice and thow exception if null.
+                User lookUp = userService.getUserByUsername(username);
+                System.out.println(lookUp);
+
+            } catch (NullUserException e) {
+                e.getMessage();
+
+            }
+
+        }while(true);
+
+
+    }
 
 
 }//Adminmenu class end.

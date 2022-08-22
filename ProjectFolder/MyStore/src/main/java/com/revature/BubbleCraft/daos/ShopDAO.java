@@ -17,7 +17,7 @@ public class ShopDAO implements CrudDAO<Shop> {
         try ( Connection con = ConnectionFactory.getInstance().getConnection() ){
 
             PreparedStatement ps = con.prepareStatement("INSERT INTO users ( id, name, email, street, city, state, zip, country, phone) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            ps.setString(1, String.valueOf(UUID.randomUUID()));
+            ps.setObject(1, UUID.randomUUID());
             ps.setString(2, obj.getName());
             ps.setString(3, obj.getStreet());
             ps.setString(4, obj.getCity());
@@ -39,33 +39,15 @@ public class ShopDAO implements CrudDAO<Shop> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(UUID id) {
 
     }
 
     @Override
-    //Used for suppliers
-    public Shop getById(String id) {
-
-        try(Connection con = ConnectionFactory.getInstance().getConnection()) {
-
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM suppliers WHERE id = ?");
-            ps.setString(1, id);
-
-            ResultSet rs = ps.executeQuery();
-
-            if(rs.next()) {
-
-                return new Shop(rs.getString("id"), rs.getString("name"), rs.getString("street"), rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getString("country"), rs.getString("phone"), rs.getString("email"), rs.getString("manager"), rs.getString("owner"));
-
-            }
-
-        } catch(SQLException e) {
-            e.printStackTrace();
-
-        }
+    public Shop getById(UUID id) {
         return null;
     }
+
     //Used for shops
     public Shop getById(Integer id) {
 
@@ -78,7 +60,7 @@ public class ShopDAO implements CrudDAO<Shop> {
 
             if(rs.next()) {
 
-                return new Shop(rs.getInt("id"), rs.getString("name"), rs.getString("street"), rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getString("country"), rs.getString("phone"), rs.getString("email"), rs.getString("manager"), rs.getString("owner"));
+                return new Shop(rs.getInt("id"), rs.getString("name"), rs.getString("street"), rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getString("country"), rs.getString("phone"), rs.getString("email"), UUID.fromString(rs.getString("manager_id")));
 
             }
 
@@ -105,7 +87,7 @@ public class ShopDAO implements CrudDAO<Shop> {
             ResultSet rs = ps.executeQuery();
 
             while( rs.next() ) {
-                list.add( new Shop(rs.getString("id"), rs.getString("name"), rs.getString("street"), rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getString("country"), rs.getString("phone"), rs.getString("email"), rs.getString("manager"), rs.getString("owner")));
+                list.add( new Shop(rs.getInt("id"), rs.getString("name"), rs.getString("street"), rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getString("country"), rs.getString("phone"), rs.getString("email"), UUID.fromString(rs.getString("manager_id"))));
 
 
             }

@@ -39,6 +39,25 @@ public class UserDAO implements CrudDAO<User> {
     }
 
     public void update(User obj) {
+        try ( Connection con = ConnectionFactory.getInstance().getConnection() ){
+
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users ( name, password, email, street, city, state, zip, country, phone, role, lastlogin) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getPassword());
+            ps.setString(3, obj.getEmail());
+            ps.setString(4, obj.getStreet());
+            ps.setString(5, obj.getCity());
+            ps.setString(6, obj.getState());
+            ps.setString(7, obj.getZip());
+            ps.setString(8, obj.getCountry());
+            ps.setString(9, obj.getPhone());
+            ps.setString(10, obj.getRole());
+            ps.setDate(12, Date.valueOf(LocalDate.now()));
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -69,11 +88,22 @@ public class UserDAO implements CrudDAO<User> {
         return null;
     }
 
-    public void delete(String id) {
+    public void delete(UUID userId) {
+        try ( Connection con = ConnectionFactory.getInstance().getConnection()){
+
+            PreparedStatement ps = con.prepareStatement("DELETE FROM users WHERE id = ?");
+            ps.setObject(1, userId);
+
+            ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public User getById(String id) {
+    public User getById(UUID id) {
         return null;
     }
     public User getUserByUsername(String username) {
@@ -106,7 +136,7 @@ public class UserDAO implements CrudDAO<User> {
         return null;
     }
 
-    //
+    //FIND USERNAME for validation
     public String findUsername(String username) {
         try ( Connection con = ConnectionFactory.getInstance().getConnection()){
 

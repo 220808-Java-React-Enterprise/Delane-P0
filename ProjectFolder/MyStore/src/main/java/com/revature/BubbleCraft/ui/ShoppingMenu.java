@@ -93,7 +93,7 @@ public class ShoppingMenu extends Navigation implements IMenu{
             customer.addToCart(productList.get(offSet), amount);
             System.out.println( amount + " " + productList.get(offSet).getName() + "'s added to your cart!\n");
         }
-        else { System.out.println("Hey, that's bot an option!\n"); }
+        else { System.out.println("Hey, that's not for sale!\n"); }
 
     }
 
@@ -121,12 +121,18 @@ public class ShoppingMenu extends Navigation implements IMenu{
         switch(input.next()) {
             case "P":
             case "p":
-                orderService.placeOrder( CreateOrder(customer) );
-                RemoveSoldStock(customer);
-                customer.clearCart();
+                if(!customer.getCart().isEmpty()) {
+                    orderService.placeOrder(CreateOrder(customer));
+                    RemoveSoldStock(customer);
+                    customer.clearCart();
 
-                shop.saveInventoryToDB();   //TODO: temp remove after finding a better place.
-                System.out.println("Order placed!\n");
+                    shop.saveInventoryToDB();   //TODO: temp remove after finding a better place.
+                    System.out.println("Order placed!\n");
+                }
+                else {
+                    System.out.println("Your cart is empty! You can place an order after adding products.");
+
+                }
                 return;
             case "R":
             case "r":
@@ -148,11 +154,10 @@ public class ShoppingMenu extends Navigation implements IMenu{
     public Order CreateOrder(Customer customer) {
 
         Order order = new Order();
-        order.setOpId((int) (Math.random() * 100));
         order.setUserId(customer.getId());
-        order.setId((int) (Math.random() * 100));
         order.setProductList( customer.getCart() );
         order.setShopId(shop.getId());
+        order.setTotalCost(customer.GetCartTotal());
 
         return order;
     }

@@ -8,7 +8,6 @@ package com.revature.BubbleCraft.ui;
 
 
 import com.revature.BubbleCraft.models.Customer;
-import com.revature.BubbleCraft.utils.Main;
 import com.revature.BubbleCraft.utils.Navigation;
 
 import java.util.Scanner;
@@ -45,7 +44,7 @@ public class MainMenu extends Navigation implements IMenu {
                     new CartMenu(customer).start();
                     break;
                 case "4":
-                    new OrderMenu().start();
+                    new OrderMenu().ViewCustomerOrders(customer.getId());
                     break;
                 case "5":
                     new OrderMenu().start();
@@ -64,5 +63,6 @@ public class MainMenu extends Navigation implements IMenu {
 
 
     }
+
 
 }

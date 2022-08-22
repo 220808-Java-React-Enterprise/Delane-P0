@@ -15,6 +15,7 @@ import com.revature.BubbleCraft.utils.Navigation;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class Shop {
     //Constants
@@ -31,14 +32,13 @@ public class Shop {
     private String country;
     private String phone;
     private String email;
-    private String manager;
-    private String owner;
+    private UUID manager_id;
     private Map<Integer, Integer> inventory = new LinkedHashMap<>();
 
     //CONSTRUCTORS
     public Shop() {}
 
-    public Shop(String name, String street, String city, String state, String zip, String country, String phone, String email, String manager, String owner) {
+    public Shop(String name, String street, String city, String state, String zip, String country, String phone, String email, UUID manager_id) {
         this.name = name;
         this.street = street;
         this.city = city;
@@ -47,12 +47,11 @@ public class Shop {
         this.country = country;
         this.phone = phone;
         this.email = email;
-        this.manager = manager;
-        this.owner = owner;
+        this.manager_id = manager_id;
     }
 
     //Shop constructor
-    public Shop(int id, String name, String street, String city, String state, String zip, String country, String phone, String email, String manager, String owner) {
+    public Shop(int id, String name, String street, String city, String state, String zip, String country, String phone, String email, UUID manager_id) {
         this.id = id;
         this.name = name;
         this.street = street;
@@ -62,24 +61,9 @@ public class Shop {
         this.country = country;
         this.phone = phone;
         this.email = email;
-        this.manager = manager;
-        this.owner = owner;
+        this.manager_id = manager_id;
     }
 
-    //Supplier constructor
-    public Shop(String uuid, String name, String street, String city, String state, String zip, String country, String phone, String email, String manager, String owner) {
-        this.uuid = uuid;
-        this.name = name;
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-        this.country = country;
-        this.phone = phone;
-        this.email = email;
-        this.manager = manager;
-        this.owner = owner;
-    }
 
     //GETTERS and SETTERS   //TODO: organize the getters and setters.
     public String getName() {
@@ -140,20 +124,12 @@ public class Shop {
         this.country = country;
     }
 
-    public String getManager() {
-        return manager;
+    public UUID getManager_id() {
+        return manager_id;
     }
 
-    public void setManager(String manager) {
-        this.manager = manager;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setManager_id(UUID manager_id) {
+        this.manager_id = manager_id;
     }
 
     public String getUuid() {
@@ -244,11 +220,8 @@ public class Shop {
         }
 
     }
-
-
-
     //METHODS
-    public void Restock(int product, int amount) {
+    public void RestockInventory(int product, int amount) {
 
         this.inventory.put( product, this.inventory.get( product ) + amount);
 
@@ -267,8 +240,7 @@ public class Shop {
                 ", country='" + country + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", manager='" + manager + '\'' +
-                ", owner='" + owner + '\'' +
+                ", manager='" + manager_id + '\'' +
                 '}';
     }
 }

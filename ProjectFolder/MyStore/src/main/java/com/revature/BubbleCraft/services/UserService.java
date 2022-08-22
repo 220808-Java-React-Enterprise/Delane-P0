@@ -21,9 +21,7 @@ public class UserService {
         if(!(user == null)) {
             return user;
         }
-        else {
-            return user = new User("Guest"); //TODO: Change to default guest user.
-        }
+        return null;
 
     }
 
@@ -58,8 +56,6 @@ public class UserService {
         return check;
     }
 
-
-
     //Validate user password.
     public boolean isValidPassword(String password){
         boolean check = password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
@@ -69,5 +65,12 @@ public class UserService {
 
         return check;
     }
+
+    //Lookup find a user by name
+    public User getUserByUsername(String username) {
+        return userDAO.getUserByUsername(username);
+
+    }
+
 
 }

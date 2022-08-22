@@ -7,8 +7,11 @@ Last updated: 08/10/2022
 
 package com.revature.BubbleCraft.models;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
+
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -79,6 +82,20 @@ public class Customer extends User{
 
     }
 
+    //GET CART TOTAL
+    public double GetCartTotal() {
+
+        double cartTotal = 0;
+
+        for(Map.Entry<Product, Integer> product: cart.entrySet()) {
+            double cost = product.getKey().getSellingPrice() * product.getValue();
+
+            cartTotal += cost;
+        }
+
+        return cartTotal;
+    }
+
     //VIEW CART
     public void viewCart() {
         double cartTotal = 0;
@@ -97,6 +114,16 @@ public class Customer extends User{
         }
 
         System.out.println("\t\t\t\tTotal Price: " + cartTotal);
+
+    }
+
+    public void viewOrders(List<Order> orderList) {
+
+        int count = 0;
+        for(Order order: orderList) {
+            count++;
+            System.out.println("[" + count + "] " + order.getShopId() + "\t" + order.getDatePlaced());
+        }
 
     }
 
