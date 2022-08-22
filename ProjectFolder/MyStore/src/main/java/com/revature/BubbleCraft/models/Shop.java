@@ -229,7 +229,7 @@ public class Shop {
         System.out.println( "\n" + this.name + "'s Inventory");
         System.out.println("To view product details enter the corresponding number. " +
                 "To restock a product enter its number followed by the word restock.");
-        System.out.println( "\tPRODUCT\t\t\tAMOUNT");
+        System.out.println( "\tPRODUCT\t\tAMOUNT");
 
         Map<Product,Integer> viewProducts = Navigation.ConvertIntToProduct(this.inventory);
 
@@ -248,7 +248,13 @@ public class Shop {
 
 
     //METHODS
-    protected void Restock() {}
+    public void Restock(int product, int amount) {
+
+        this.inventory.put( product, this.inventory.get( product ) + amount);
+
+        this.saveInventoryToDB(); //TODO: temp create confirmationmethod for admin and move to there.
+
+    }
 
     @Override
     public String toString() {

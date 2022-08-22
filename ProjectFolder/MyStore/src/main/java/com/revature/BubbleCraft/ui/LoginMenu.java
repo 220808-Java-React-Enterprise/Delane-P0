@@ -63,12 +63,14 @@ public class LoginMenu extends Navigation implements IMenu {
 
                 }//Switch end
                 try {
-                    if (!(user.getId() == null || user.getRole().equals("ADMIN"))) {
-                        //Calling the mainmenu
-                        new MainMenu().start();
-                    } else if ((!(user.getId() == null)) && user.getRole().equals("ADMIN")) {
-                        //Calling adminmenu
-                        new AdminMenu().start();
+                    if(!(user.getId() == null)) {
+                        if (!user.getRole().equals("ADMIN")) {
+                            //Calling the mainmenu
+                            new MainMenu().start();
+                        } else {//if (user.getRole().equals("ADMIN")) {
+                            //Calling adminmenu
+                            new AdminMenu().start();
+                        }
                     }
                 } catch (NullPointerException e) {
                     continue;

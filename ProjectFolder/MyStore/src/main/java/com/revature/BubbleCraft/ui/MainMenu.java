@@ -7,12 +7,14 @@ Last updated: 08/10/2022
 package com.revature.BubbleCraft.ui;
 
 
+import com.revature.BubbleCraft.models.Customer;
 import com.revature.BubbleCraft.utils.Main;
 import com.revature.BubbleCraft.utils.Navigation;
 
 import java.util.Scanner;
 
 public class MainMenu extends Navigation implements IMenu {
+    private Customer customer = (Customer) user;
 
     //Constructor
     public MainMenu() {}
@@ -40,7 +42,7 @@ public class MainMenu extends Navigation implements IMenu {
                     new ShoppingMenu().start();
                     break;
                 case "3":
-                    new CartMenu().start();
+                    new CartMenu(customer).start();
                     break;
                 case "4":
                     new OrderMenu().start();
