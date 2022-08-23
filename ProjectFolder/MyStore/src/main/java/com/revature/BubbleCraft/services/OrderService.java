@@ -27,8 +27,8 @@ public class OrderService {
 
     }
 
-    public List<Order> getAllOrdersByUserId(UUID userId) {
-        return orderDAO.getAllOrdersByUserId(userId);
+    public List<Order> getAllOrdersByUserId(UUID userId, char ch) {
+        return orderDAO.getAllOrdersByUserId(userId, ch);
 
     }
 

@@ -38,21 +38,21 @@ public class UserDAO implements CrudDAO<User> {
         }
     }
 
-    public void update(User obj) {
+    public void update(User user) {
         try ( Connection con = ConnectionFactory.getInstance().getConnection() ){
 
-            PreparedStatement ps = con.prepareStatement("INSERT INTO users ( name, password, email, street, city, state, zip, country, phone, role, lastlogin) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            ps.setString(1, obj.getName());
-            ps.setString(2, obj.getPassword());
-            ps.setString(3, obj.getEmail());
-            ps.setString(4, obj.getStreet());
-            ps.setString(5, obj.getCity());
-            ps.setString(6, obj.getState());
-            ps.setString(7, obj.getZip());
-            ps.setString(8, obj.getCountry());
-            ps.setString(9, obj.getPhone());
-            ps.setString(10, obj.getRole());
-            ps.setDate(12, Date.valueOf(LocalDate.now()));
+            PreparedStatement ps = con.prepareStatement("UPDATE SET name= ?, password= ?, email= ?, street= ?, city= ?, state= ?, zip= ?, country= ?, phone= ? lastlogin= ? WHERE id= ?");
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getStreet());
+            ps.setString(5, user.getCity());
+            ps.setString(6, user.getState());
+            ps.setString(7, user.getZip());
+            ps.setString(8, user.getCountry());
+            ps.setString(9, user.getPhone());
+            ps.setDate(10, Date.valueOf(LocalDate.now()));
+            ps.setObject(11, user.getId());
             ps.executeUpdate();
 
         } catch (SQLException e) {

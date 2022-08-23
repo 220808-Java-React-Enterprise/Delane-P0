@@ -33,9 +33,8 @@ public class ShoppingMenu extends Navigation implements IMenu{
                 System.out.println("\n\t\tSHOPPING MENU");
                 System.out.println("Welcome to the Shopping Menu " + user.getName() +
                         ". Here you can view and add products to your cart.");
-                System.out.println("Enter a letter to view product details.\n" +
-                        "Enter a number to add a product directly to your cart.\n" +
-                        "Enter [0] to return to the main menu or [C] to checkout:");
+                System.out.println("Enter a number to add a product directly to your cart.");
+                       //+ "\n(Add a + to view product details!)");
 
                 DisplayProducts();
 
@@ -64,7 +63,7 @@ public class ShoppingMenu extends Navigation implements IMenu{
                     } else {
                         continue;
                     }
-                } catch (StringIndexOutOfBoundsException e) {
+                } catch (Exception e) {
                     continue;
 
                 }

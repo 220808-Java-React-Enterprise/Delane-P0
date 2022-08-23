@@ -7,32 +7,33 @@ Last updated: 08/10/2022
 
 package com.revature.BubbleCraft.models;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
-
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class Customer extends User{
+public class Customer extends User {
 
     //Data fields
     private Map<Product, Integer> cart = new LinkedHashMap<>();
 
     //Constructors
-    public Customer() {}
+    public Customer() {
+    }
 
     public Customer(String name) {
-        super( name );
+        super(name);
     }
+
     public Customer(String name, String email, String password) {
-        super( name, email, password );
+        super(name, email, password);
 
     }
+
     //Full constructor for reading from DB
     public Customer(UUID id, String name, String password, String email, String street, String city, String state, String zip, String country, String phone, String role, LocalDate registered, LocalDate lastlogin) {
-        super( id, name, password, email, street, city, state, zip, country, phone, role, registered, lastlogin );
+        super(id, name, password, email, street, city, state, zip, country, phone, role, registered, lastlogin);
     }
 
 
@@ -51,27 +52,28 @@ public class Customer extends User{
     public void addToCart(Product product, Integer amount) { //TODO
 
 
-        for(Map.Entry<Product, Integer> cartMap: cart.entrySet()) {
+        for (Map.Entry<Product, Integer> cartMap : cart.entrySet()) {
 
-            if(cartMap.getKey().getId().equals(product.getId())) {
+            if (cartMap.getKey().getId().equals(product.getId())) {
 
                 //If the product is found in the cart add to its count and exit before adding another entry.
-                cart.put( cartMap.getKey(), cart.get(cartMap.getKey()) + amount);
+                cart.put(cartMap.getKey(), cart.get(cartMap.getKey()) + amount);
                 return;
             }
         }
-        cart.put( product, amount );
+        cart.put(product, amount);
     }
 
     //REMOVE FROM CART
     public void removeFromCart(Product product, Integer amount) {
 
-        if( this.cart.get( product ) > amount ) {
+        if (this.cart.get(product) > amount) {
 
-            this.cart.replace( product, ( this.cart.get( product ) - amount ) );
+            this.cart.replace(product, (this.cart.get(product) - amount));
 
+        } else {
+            this.cart.remove(product);
         }
-        else { this.cart.remove( product ); }
 
     }
 
@@ -87,7 +89,7 @@ public class Customer extends User{
 
         double cartTotal = 0;
 
-        for(Map.Entry<Product, Integer> product: cart.entrySet()) {
+        for (Map.Entry<Product, Integer> product : cart.entrySet()) {
             double cost = product.getKey().getSellingPrice() * product.getValue();
 
             cartTotal += cost;
@@ -104,11 +106,11 @@ public class Customer extends User{
                 "\tName\t\tAmount\t\tPrice");
 
         int i = 0;
-        for(Map.Entry<Product, Integer> product: cart.entrySet()) {
+        for (Map.Entry<Product, Integer> product : cart.entrySet()) {
             i++;
             double cost = product.getKey().getSellingPrice() * product.getValue();
-            System.out.println( "[" + i + "]" + product.getKey().getName() + "\t\t" +
-                    product.getValue() + "\t\t$" + cost );
+            System.out.println("[" + i + "]" + product.getKey().getName() + "\t\t" +
+                    product.getValue() + "\t\t$" + cost);
             cartTotal += cost;
 
         }
@@ -120,7 +122,7 @@ public class Customer extends User{
     public void viewOrders(List<Order> orderList) {
 
         int count = 0;
-        for(Order order: orderList) {
+        for (Order order : orderList) {
             count++;
             System.out.println("[" + count + "] " + order.getShopId() + "\t" + order.getDatePlaced());
         }
@@ -128,16 +130,6 @@ public class Customer extends User{
     }
 
 
-    //CHECKOUT aka PLACE ORDER
-    public Order placeOrder(Map<Product, Integer> cart) {
-        return null;
-    }
 
 
-
-
-
-
-
-
-}
+}///C:ASS End

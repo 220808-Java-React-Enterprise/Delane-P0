@@ -8,7 +8,6 @@ package com.revature.BubbleCraft.ui;
 
 //IMPORTS
 import java.util.Scanner;
-import java.util.UUID;
 
 import com.revature.BubbleCraft.models.*;
 import com.revature.BubbleCraft.services.UserService;
@@ -34,19 +33,12 @@ public class LoginMenu extends Navigation implements IMenu {
     @Override
     public void start() {
 
-        /*User guest = new User();
-        guest.setName("Guest");
-
-        System.out.println(guest + guest.getName());
-        System.out.println("Hello " + guest.getName() + ", welcome to " + storeName + "!");
-        */
-
         StartScreen: {
             while (true) {
-                System.out.println("Welcome to " + SHOP.getName() + "!");
-                System.out.println( "[1]\tLOGIN\n" +
-                                    "[2]\tSIGNUP\n" +
-                                    "[Q]\tQUIT");
+                System.out.println("\n\nWelcome to " + SHOP.getName() + "!\n");
+                System.out.println( "\t  [1] LOGIN\n" +
+                                    "\t  [2] SIGNUP\n" +
+                                    "\t  [X] Exit");
 
                 switch (new Scanner(System.in).next().charAt(0)) {
                     case '1':
@@ -56,8 +48,8 @@ public class LoginMenu extends Navigation implements IMenu {
                         Signup();
                         Login();
                         break;
-                    case 'Q':
-                    case 'q': System.exit(0);
+                    case 'X':
+                    case 'x': System.exit(0);
                         continue;
                     default:
                         System.out.println("Invalid entry, please input one of the options shown.");
@@ -66,12 +58,18 @@ public class LoginMenu extends Navigation implements IMenu {
                 }//Switch end
                 try {
                     if(!(user.getId() == null)) {
+
                         if (!user.getRole().equals("ADMIN")) {
+
                             //Calling the mainmenu
-                            new MainMenu().start();
-                        } else {//if (user.getRole().equals("ADMIN")) {
+                            Customer customer = (Customer) user;
+                            new MainMenu(customer).start();
+
+                        } else {
+
                             //Calling adminmenu
-                            new AdminMenu().start();
+                            Admin admin = (Admin) user;
+                            new AdminMenu(admin).start();
                         }
                     }
                 } catch (NullPointerException e) {
@@ -100,39 +98,36 @@ public class LoginMenu extends Navigation implements IMenu {
         user = new User();
         user.setRole("GUEST");
 
-        Signup_loop:
-        {
-            do {
-                System.out.println("\t\tSIGN UP!" +
-                        "\nEnter your information below to sign up.");
+        do {
+            System.out.println("\n\n\t\t\tSIGN UP!" +
+                    "\nEnter your information below to sign up.");
 
-                user.setEmail(Validate("Email"));
-                user.setName(Validate("Username"));
-                user.setPassword(Validate("Password"));
+            user.setEmail(Validate("Email"));
+            user.setName(Validate("Username"));
+            user.setPassword(Validate("Password"));
 
-                System.out.println("Is this correct?\n" + user.toString(0) +
-                        "\n[1] Yes, continue to login!" +
-                        "\n[2] No, redo the signup!" +
-                        "\n[3] Quit, your signup information will not be saved!");
+            System.out.println("Is this correct?\n\n" + user.toString(0) +
+                    "\n\n[1] Yes, continue to login!" +
+                    "\n[2] No, redo the signup!" +
+                    "\n[3] Quit, your signup information will not be saved!");
 
-                switch (input.nextInt()) {
-                    case 1:
-                        userService.register(user);
-                        System.out.println("Moving to Login...\n");
-                        input.nextLine();   //Buffer to prevent the login email input from firing early.
-                        return;
-                    case 2:
-                        System.out.println("Restarting Signup...");
-                        continue;
-                    case 3:
-                        return;
-                    default:
-                        System.out.println("Reloading Signup...");
+            switch (input.nextInt()) {
+                case 1:
+                    userService.register(user);
+                    System.out.println("Moving to Login...\n");
+                    input.nextLine();   //Buffer to prevent the login email input from firing early.
+                    return;
+                case 2:
+                    System.out.println("Restarting Signup...");
+                    continue;
+                case 3:
+                    return;
+                default:
+                    System.out.println("Reloading Signup...");
 
-                }
+            }
 
-            } while (true);
-        }//Signup_loop end.
+        } while (true);
 
 
 
@@ -156,7 +151,7 @@ public class LoginMenu extends Navigation implements IMenu {
                     if( s.equalsIgnoreCase("email") ){ valid = userService.isValidEmail( v ); }
                     else if( s.equalsIgnoreCase("username") ){ valid = userService.isValidUserName( v ); }
                     else if( s.equalsIgnoreCase("password") ){ valid = userService.isValidPassword( v ); }
-                    else { throw new NotValidException("Oops, this fell through the cracks. Code fix needed!"); }
+                    else { throw new NotValidException("Oops, this fell through the cracks...."); }
 
                 }catch(NotValidException e) {
 
@@ -165,7 +160,7 @@ public class LoginMenu extends Navigation implements IMenu {
             }
             else if( !user.getRole().equals("ADMIN") ){
 
-                System.out.println("Welcome new administrator, let's finish your sign up!");
+                System.out.println("Welcome new administrator, let's finish your sign up!\n");
                 user.setRole("ADMIN");
             }
 
@@ -219,29 +214,34 @@ public class LoginMenu extends Navigation implements IMenu {
         Login: {
             do{
 
-                System.out.println("Login with your email and password.\n(Enter Q to quit.)");
+                System.out.println("\nLogin with your email and password.\n(Enter X to exit.)");
 
 
-                System.out.print("Email:\t");
+                System.out.print("\nEmail:\t");
                 email = input.nextLine();
 
-                System.out.print("Password:\t");
-                password = input.nextLine();
-
-                if(email.equalsIgnoreCase("q") || password.equalsIgnoreCase("q")) {
+                if(email.matches("^[x\\|X]$")) {
                     return;
                 }
 
-                Navigation.user = userService.Login( email, password);
+                System.out.print("\nPassword:\t");
+                password = input.nextLine();
 
-                if( user.getName().equalsIgnoreCase("Guest") ) {
+                if(password.matches("^[x\\|X]$")) {
+                    return;
+                }
 
-                    System.out.println("User not found!\nPlease check if your email and password are correct.\n");
+                try {
+                    Navigation.user = userService.Login(email, password);
+                    return;
+                } catch (NullUserException e) {
+                    System.out.println(e.getMessage());
+
                 }
 
                 System.out.println(); //for spacing
 
-            }while(Navigation.user.getId() == null); //TODO find a different while condition.
+            }while(true);
         }
 
     }

@@ -18,23 +18,7 @@ public class Main {
 
     //MAIN METHOD
     public static void main(String[] args) {
-        /*Testing connections*
-        try {
-            System.out.println(ConnectionFactory.getInstance().getConnection());
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
-        */
-        //Testing shop inventory
-        //Shop qqq = Navigation.LoadShop();
-        //qqq.viewInventory();
 
-        //Testing shopping menu
-        //new ShoppingMenu().start();
-
-        //Creating new Login instance, which takes a UserService as a parameter, which then takes a UserDAO(database access object?) as a parameter.
-        //The connection works like using a UPS between an outlet and an appliance?
-        //It provides a buffer and sends a warning when something out of the ordinary happens, preventing permanent harm to the appliance?
         new LoginMenu(new UserService((new UserDAO()))).start();
 
 

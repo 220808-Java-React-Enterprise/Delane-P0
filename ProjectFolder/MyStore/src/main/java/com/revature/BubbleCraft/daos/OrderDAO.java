@@ -118,13 +118,20 @@ public class OrderDAO implements  CrudDAO<Order>{
     }
 
 
-    public List<Order> getAllOrdersByUserId( UUID userId ) {
+    public List<Order> getAllOrdersByUserId( UUID userId, char ch ) {
 
         List<Order> list = new LinkedList<>();
 
         try(Connection con = ConnectionFactory.getInstance().getConnection()) {
 
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM orders WHERE user_id= ?");
+            PreparedStatement ps;
+            if( ch == 'c') {
+               ps = con.prepareStatement("SELECT * FROM orders WHERE user_id= ? ORDER BY totalcost DESC");
+            }
+            else {
+                ps = con.prepareStatement("SELECT * FROM orders WHERE user_id= ? ORDER BY dateplaced DESC");
+
+            }
             //ps.setString(1, String.valueOf(userId));
             ps.setObject(1, userId);
             ResultSet rs = ps.executeQuery();
@@ -154,7 +161,7 @@ public class OrderDAO implements  CrudDAO<Order>{
         try(Connection con = ConnectionFactory.getInstance().getConnection()) {
 
             PreparedStatement ps = con.prepareStatement("SELECT * FROM orderedproducts WHERE order_id= ?");
-            ps.setString(1, String.valueOf(orderId));
+            ps.setObject(1, orderId);
 
             ResultSet rs = ps.executeQuery();
 

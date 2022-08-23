@@ -20,8 +20,21 @@ public class OrderMenu extends Navigation implements IMenu{
         //Things to be moved over from shopping menu.
     }
 
+    public char SelectOrderSort() {
+
+        System.out.println("Order History by?\n" +
+                "[D] Date [C] cost");
+        String mP = input.next();
+        if(mP.matches("^c|C.")) { mP = "c"; }
+        else { mP = "d"; }
+
+        return mP.charAt(0);
+    }
+
     public void ViewCustomerOrders(UUID userId) {
-        List<Order> orderList = orderService.getAllOrdersByUserId(userId);
+        char ch = SelectOrderSort();
+
+        List<Order> orderList = orderService.getAllOrdersByUserId(userId, ch);
         int i = 0;
         System.out.println("Enter a number from the menu to view that order's details.");
         System.out.println("Shop#\tDate Placed\tCost\t\tFulfilled\t\t\tOrder ID");

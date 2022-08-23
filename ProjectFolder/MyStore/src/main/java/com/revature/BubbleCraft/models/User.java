@@ -188,8 +188,8 @@ public class User {
 
     public String toString(int i) {
         return "Email:\t" + email +
-                "\nUsername:\t" + name +
-                "\nPassword:\t" + password;
+                "\n\nUsername:\t" + name +
+                "\n\nPassword:\t" + password;
     }
 
 

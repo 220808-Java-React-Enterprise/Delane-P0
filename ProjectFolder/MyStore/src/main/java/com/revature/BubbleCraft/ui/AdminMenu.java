@@ -12,8 +12,10 @@ import com.revature.BubbleCraft.utils.customexceptions.NullUserException;
 import java.util.List;
 
 public class AdminMenu extends Navigation implements IMenu{
-    private static Admin admin = (Admin) user;
+    private final Admin admin;
     private static final OrderService orderService = new OrderService( new OrderDAO() );
+
+    public AdminMenu(Admin admin) { this.admin = (Admin) user;}
     @Override
     public void start() {
 
@@ -27,7 +29,7 @@ public class AdminMenu extends Navigation implements IMenu{
 
                 System.out.println("[1] Account\n[2] Shop Information\n[3] All Orders\n[4] Restock\n[5] Add New Product\n[6] Lookup users\n[X] Logout");
                 switch (input.next().charAt(0)) {
-                    case '1':
+                    case '1':   new AccountMenu( admin ).start();
                         break;
                     case '2':
                         break;

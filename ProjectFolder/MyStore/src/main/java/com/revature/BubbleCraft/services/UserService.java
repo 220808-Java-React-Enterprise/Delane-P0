@@ -3,17 +3,14 @@ package com.revature.BubbleCraft.services;
 import com.revature.BubbleCraft.daos.UserDAO;
 import com.revature.BubbleCraft.models.User;
 import com.revature.BubbleCraft.utils.customexceptions.NotValidException;
+import com.revature.BubbleCraft.utils.customexceptions.NullUserException;
 
 public class UserService {
     private final UserDAO userDAO;
 
     public UserService(UserDAO userDAO) { this.userDAO = userDAO; }
-    /*/Because service is the go between for the db and frontend of the program all calls to and from the db must be filtered through it.
-    A go between is very basically what an api is so the services classes can be considered apis./*/
-    public void register(User user) {
-        //Wrapping the save method from UserDAO and passing it a user from the loginmenu class.
-        userDAO.save(user);
-    }
+    public void register(User user) { userDAO.save(user); }
+    public void UpdateUser(User user) { userDAO.update(user); }
 
     //Login method.
     public User Login(String email, String password) {
@@ -21,7 +18,8 @@ public class UserService {
         if(!(user == null)) {
             return user;
         }
-        return null;
+        else{ throw new NullUserException("\nUser not found!\nPlease check if your email and password are correct.\n\n");
+        }
 
     }
 
@@ -29,11 +27,11 @@ public class UserService {
     public boolean isValidEmail(String email){
 
         boolean check = email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+");
-        if(!check) { throw new NotValidException( "That is not a valid email.\nPlease enter a valid email address below or enter q to quit." ); }
+        if(!check) { throw new NotValidException( "That is not a valid email.\nPlease enter a valid email address below or enter q to quit.\n\n" ); }
 
         //Checking for already registered email.
         if(!userDAO.findEmail(email).equalsIgnoreCase("NOT FOUND")) {
-            throw new NotValidException("That email is already registered!");
+            throw new NotValidException("That email is already registered!\n\n");
         }
 
         return check;
@@ -45,24 +43,38 @@ public class UserService {
         if(!check) {
             throw new NotValidException( "That is not a valid username." +
                     "\nA valid username can use letters, numbers, plus _ or -, and be between 3-15 characters long." +
-                    "\nPlease enter a valid username below or enter q to quit." );
+                    "\nPlease enter a valid username below or enter q to quit.\n\n" );
         }
-
-        //Checking if username is taken username.
-        if(!userDAO.findUsername(username).equals("NOT FOUND")) {
-            throw new NotValidException( "Sorry that username is taken!");
-        }
+        if(!isUsernameFree(username)) { check = false; }
 
         return check;
     }
+
+    public boolean isUsernameFree(String username) {
+
+        //Checking if username is taken username.
+        if(!userDAO.findUsername(username).equals("NOT FOUND")) {
+            throw new NotValidException( "Sorry that username is taken!\n\n");
+
+        }
+
+        return true;
+    }
+
 
     //Validate user password.
     public boolean isValidPassword(String password){
         boolean check = password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
         if(!check) { throw new NotValidException( "That is not a valid password." +
                 "\nA valid password must contain upper and lower case letters, numbers, and at least one symbol." +
-                "\nPlease enter a valid password below or enter q to quit." ); }
+                "\nPlease enter a valid password below or enter q to quit.\n\n" ); }
 
+        return check;
+    }
+
+    public boolean isValidPhone(String phone) {
+        boolean check = phone.matches("^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$");
+        if(!check) {throw new NotValidException("That is not a valid phone number.\nDo not enter the extention, enter the ten digits of your phone number.\n\n");}
         return check;
     }
 

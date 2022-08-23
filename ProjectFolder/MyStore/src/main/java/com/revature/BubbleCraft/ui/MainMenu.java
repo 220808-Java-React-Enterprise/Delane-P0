@@ -13,10 +13,12 @@ import com.revature.BubbleCraft.utils.Navigation;
 import java.util.Scanner;
 
 public class MainMenu extends Navigation implements IMenu {
-    private Customer customer = (Customer) user;
+    private Customer customer;
 
     //Constructor
-    public MainMenu() {}
+    public MainMenu(Customer customer) {
+        this.customer = customer;
+    }
 
     @Override
     public void start() {
@@ -24,39 +26,33 @@ public class MainMenu extends Navigation implements IMenu {
         Scanner input = new Scanner(System.in);
 
         do {
-            System.out.println("\t\tMAIN MENU");
+            System.out.println("\n\n\n\t\t  MAIN MENU");
             System.out.println("Welcome to " + shop.getName() + " " + user.getName() + "!");
-            System.out.println("Enter a number to select from the options below;\n");
-            System.out.println("[1] Account\t\t[4] View Orders\n" +
-                    "[2] Shop\t\t[5] View Order History\n" +
-                    "[3] View Cart\t[6] Shops near me\n" +
-                    "[X] Logout\n");
+            System.out.println("Enter a number to select from the options below.\n");
+            System.out.println("[1] Shop\t\t[3] View Order History\n" +
+                    "[2] Account\t\t[4] View Cart\n" +
+                    "\n\t\t[X] Logout\n");
             String menuChoice = input.next();
 
             switch (menuChoice) {
                 case "1":
-                    new AccountMenu().start();
+                    new ShoppingMenu().start();
                     break;
                 case "2":
-                    new ShoppingMenu().start();
+                    new AccountMenu(customer, userService).start();
                     break;
                 case "3":
-                    new CartMenu(customer).start();
-                    break;
-                case "4":
                     new OrderMenu().ViewCustomerOrders(customer.getId());
                     break;
-                case "5":
-                    new OrderMenu().start();
-                    break;
-                case "6":
-                    new ShoppingMenu().start();
+                case "4":
+                    new CartMenu(customer).start();
                     break;
                 case "x":
                 case "X":
                     return;
                 default:
-                    System.out.println("Sorry that's not an available option.\nPlease enter one from the menu.");
+                    System.out.println("\nSorry that's not an available option.\nPlease enter one from the menu.\n(Press enter to continue)\n");
+                    input.nextLine();
 
             }
         } while (true);
