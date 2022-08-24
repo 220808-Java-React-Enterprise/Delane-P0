@@ -58,6 +58,7 @@ In the application customers are able to create a new account, login, purchase m
 
 ## Future Updates:
 - [ ] Persistent cart - not ready to check out yet? Don't worry your cart will still be here when you log back in.
+- [ ] More function to the backstage - Shop managers will have more abilities. 
 - [ ] More shops - Find products from all your favorite brands. 
 - [ ] More products - From Bubble Baths to Bath Bombs and even rubber ducks, we'll never stop expanding!
 - [ ] Optimizing the app - You feedback is always welcome and used to make the Bubble Craft app a smoother and more convenient experience. 😊

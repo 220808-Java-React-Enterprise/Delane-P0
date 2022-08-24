@@ -203,9 +203,10 @@ public class Shop {
         this.getInventoryFromDB();//TODO temp test REMOVE
 
         System.out.println( "\n" + this.name + "'s Inventory");
-        System.out.println("To view product details enter the corresponding number. " +
-                "To restock a product enter its number followed by the word restock.");
-        System.out.println( "\tPRODUCT\t\tAMOUNT");
+        //System.out.println("To view product details enter the corresponding number. ");
+        System.out.println("To restock a product enter its number followed by a space and the word restock.\n" +
+                "(Enter: [0 R] to Return)");
+        System.out.println( "\tPRODUCT\t\t\tAMOUNT");
 
         Map<Product,Integer> viewProducts = Navigation.ConvertIntToProduct(this.inventory);
 
