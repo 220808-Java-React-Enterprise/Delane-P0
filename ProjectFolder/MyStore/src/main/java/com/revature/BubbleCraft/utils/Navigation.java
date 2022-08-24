@@ -11,7 +11,6 @@ import com.revature.BubbleCraft.services.ProductService;
 import com.revature.BubbleCraft.services.ShopService;
 import com.revature.BubbleCraft.services.UserService;
 import com.revature.BubbleCraft.ui.IMenu;
-import com.revature.BubbleCraft.ui.MainMenu;
 
 import java.util.*;
 
@@ -40,13 +39,18 @@ public class Navigation implements IMenu {
     //METHODS
 
     //QUIT
-    public void Quit() {
+    public void Exit() {
 
         user = new User("Guest"); //TODO: create a default guest user.
 
         System.out.println("\nThanks for visiting " + shop.getName() + "!\nHave a great day!\n");
         //input.close();  //??
         System.exit(0);
+
+    }
+
+    public void Pause() {
+        String pause = input.next();
 
     }
 

@@ -1,12 +1,10 @@
 package com.revature.BubbleCraft.services;
 
 import com.revature.BubbleCraft.daos.ShopDAO;
-import com.revature.BubbleCraft.daos.UserDAO;
 import com.revature.BubbleCraft.models.Customer;
+import com.revature.BubbleCraft.models.Product;
 import com.revature.BubbleCraft.models.Shop;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +32,14 @@ public class ShopService {
     }
     public void saveShopInventory(Map<Integer,Integer> inventory, int shopId) {
         shopDAO.saveShopInventory( inventory, shopId );
+
+    }
+
+    public void RemoveSoldStock(Customer customer, Shop shop) {
+
+        for(Map.Entry<Product,Integer> cart: customer.getCart().entrySet()) {
+            shop.removeFromInventory( cart.getKey().getId(), cart.getValue());
+        }
 
     }
 

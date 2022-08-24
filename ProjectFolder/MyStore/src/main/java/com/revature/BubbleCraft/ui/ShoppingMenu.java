@@ -2,25 +2,28 @@ package com.revature.BubbleCraft.ui;
 
 import com.revature.BubbleCraft.daos.OrderDAO;
 import com.revature.BubbleCraft.daos.ProductDAO;
+import com.revature.BubbleCraft.daos.ShopDAO;
 import com.revature.BubbleCraft.models.Customer;
 import com.revature.BubbleCraft.models.Order;
 import com.revature.BubbleCraft.models.Product;
 import com.revature.BubbleCraft.services.OrderService;
 import com.revature.BubbleCraft.services.ProductService;
+import com.revature.BubbleCraft.services.ShopService;
 import com.revature.BubbleCraft.utils.Navigation;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
 
-public class ShoppingMenu extends Navigation implements IMenu{
+public class ShoppingMenu extends Navigation implements IMenu {
 
-    private final ProductService productService = new ProductService( new ProductDAO() );
-    private final OrderService orderService = new OrderService( new OrderDAO() );
+    private final ProductService productService = new ProductService(new ProductDAO());
+    private final OrderService orderService = new OrderService(new OrderDAO());
+    private final ShopService shopService = new ShopService((new ShopDAO()));
 
     private Customer customer = (Customer) user;
 
-    public ShoppingMenu() {}
+    public ShoppingMenu() {
+    }
 
     @Override
     public void start() {
@@ -34,7 +37,7 @@ public class ShoppingMenu extends Navigation implements IMenu{
                 System.out.println("Welcome to the Shopping Menu " + user.getName() +
                         ". Here you can view and add products to your cart.");
                 System.out.println("Enter a number to add a product directly to your cart.");
-                       //+ "\n(Add a + to view product details!)");
+                //+ "\n(Add a + to view product details!)");
 
                 productService.DisplayProducts();
 
@@ -78,38 +81,37 @@ public class ShoppingMenu extends Navigation implements IMenu{
     }
 
 
-
     public void Checkout(Customer customer) throws IOException {
 
         customer.viewCart();
 
         System.out.println("\n[P] Place Order\t\t\t[R] Return");
 
-        switch(input.next()) {
+        switch (input.next()) {
             case "P":
             case "p":
-                if(customer.getAddress() == null) {
+                if (customer.getAddress() == null) {
                     System.out.println("Hey! you need to add an address before you can place an order.\n" +
                             "Add one now? (The contents of your cart will be saved.)\n" +
                             "\t\t\t[1] Yes\t[2] No");
                     String choice = input.nextLine();
-                    if(input.nextLine().matches("^[y\\|Y]")) { new AccountMenu(customer,Navigation.userService).ChangeAddress(); }
-                    else {
+                    if (input.nextLine().matches("^[y\\|Y]")) {
+                        new AccountMenu(customer, Navigation.userService).ChangeAddress();
+                    } else {
                         System.out.println("Add an address from the account menu to finish placing your order.");
                         return;
 
                     }
 
                 }
-                if(!customer.getCart().isEmpty()) {
-                    orderService.placeOrder(CreateOrder(customer));
-                    RemoveSoldStock(customer);
+                if (!customer.getCart().isEmpty()) {
+                    orderService.placeOrder(orderService.CreateOrder(customer, shop));
+                    shopService.RemoveSoldStock(customer, shop);
                     customer.clearCart();
 
                     shop.saveInventoryToDB();   //TODO: temp remove after finding a better place.
                     System.out.println("Order placed!\n");
-                }
-                else {
+                } else {
                     System.out.println("Your cart is empty! You can place an order after adding products.");
 
                 }
@@ -122,24 +124,6 @@ public class ShoppingMenu extends Navigation implements IMenu{
         }
 
     }
-
-    public void RemoveSoldStock(Customer customer) {
-
-        for(Map.Entry<Product,Integer> cart: customer.getCart().entrySet()) {
-            shop.removeFromInventory( cart.getKey().getId(), cart.getValue());
-        }
-
-    }
-
-    public Order CreateOrder(Customer customer) {
-
-        Order order = new Order();
-        order.setUserId(customer.getId());
-        order.setProductList( customer.getCart() );
-        order.setShopId(shop.getId());
-        order.setTotalCost(customer.GetCartTotal());
-
-        return order;
-    }
-
 }
+
+

@@ -195,7 +195,7 @@ public class LoginMenu extends Navigation implements IMenu {
                     System.out.println("Restarting Signup...");
                     continue;
                 case 3:
-                    Quit();
+                    return;
                 default:
                     System.out.println("Reloading Signup...");
 

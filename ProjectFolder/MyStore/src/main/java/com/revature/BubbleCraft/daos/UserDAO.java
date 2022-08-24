@@ -179,5 +179,15 @@ public class UserDAO implements CrudDAO<User> {
     }
 
     //Save Cart
+    public void saveCart(Customer customer) {
+        try(Connection con = ConnectionFactory.getInstance().getConnection()) {
+            PreparedStatement ps = con.prepareStatement("");
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+
+        }
+
+    }
 
 }
