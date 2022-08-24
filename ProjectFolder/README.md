@@ -65,5 +65,5 @@ In the application customers are able to create a new account, login, purchase m
     
 ## Database Entity Relationship Diagram:
 
-![Entity Relationship Diagram image 3rd normal form.](MyStore\src\main\resources\Bubble_Craft_ERD_Chart.png.jpg)
+![Entity Relationship Diagram image 3rd normal form.](MyStore\src\main\resources\Bubble_Craft_ERD_Chart.png)
 
