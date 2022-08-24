@@ -62,16 +62,16 @@ public class OrderMenu extends Navigation implements IMenu{
         List<Order> detailsList = orderService.getAllOrderDetailsByOrderId(orderId);
 
 
-        System.out.println("\t\t\t\tORDER DETAILS\nShop#\tProduct\t\tColor\tScent\t\t\tAmount\tCost");
+        System.out.println("\t\t\t\tORDER DETAILS\nShop#\tProduct\t\tColor\tScent\t\t\tAmount\tCos\nt");
         int i = 0;
         for(Order o: detailsList) {
             Product product = ConvertIntToProduct(o.getProductId());
             i++;
-            System.out.println( "[" + i + "] " + o.getShopId() + "\t" + product.getName() + "\t" +  product.getColor() + "\t" + product.getScent() + "\t\t\t" +
+            System.out.println( "[" + i + "] " + o.getShopId() + "\t" + product.getName() + "\t" +  product.getColor() + "\t" + product.getScent() + "\t\t" +
                    o.getAmount() + "\t" + o.getTotalCost()  );
         }
 
-        System.out.println("\t\t[R] Return\t[X] Main Menu");
+        System.out.println("\n\t\t[R] Return\t[X] Main Menu");
         input.nextLine();
         String choice = input.nextLine();
         if(choice.matches("^[r\\|R]")) { ViewCustomerOrders(detailsList.get(0).getUserId()); }

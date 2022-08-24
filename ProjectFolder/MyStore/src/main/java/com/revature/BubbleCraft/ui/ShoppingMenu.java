@@ -52,7 +52,7 @@ public class ShoppingMenu extends Navigation implements IMenu {
 
                     } else if (Character.isDigit(menuChoice.charAt(0))) {
 
-                        productService.ProductSelection(customer, Integer.parseInt(menuChoice), input);
+                        productService.ProductSelection(customer, Integer.parseInt(menuChoice), input, shop);
 
                     } else if (menuChoice.charAt(0) == 'C' || menuChoice.charAt(0) == 'c') {
 
@@ -90,7 +90,7 @@ public class ShoppingMenu extends Navigation implements IMenu {
         switch (input.next()) {
             case "P":
             case "p":
-                if (customer.getAddress() == null) {
+                if (customer.getAddress().equals(null)) {
                     System.out.println("Hey! you need to add an address before you can place an order.\n" +
                             "Add one now? (The contents of your cart will be saved.)\n" +
                             "\t\t\t[1] Yes\t[2] No");

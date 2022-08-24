@@ -15,14 +15,14 @@ public class User {
     private String name;
     private String password;
     private String email;
-    private String street = "uhu";
-    private String city = "uhu";
-    private String state = "uhu";
-    private String zip = "uhu";
-    private String country = "uhu";
-    private String phone = "";
+    private String street;
+    private String city;
+    private String state;
+    private String zip;
+    private String country;
+    private String phone;
     //private String payment_method = ""; //Implement if time allows.
-    private String role = "";
+    private String role;
     private LocalDate registered;
     private LocalDate lastlogin;
 

@@ -102,7 +102,7 @@ public class Customer extends User {
     public void viewCart() {
         double cartTotal = 0;
         System.out.println("\t\t\t\tCART\n" +
-                "\tName\t\tAmount\t\tPrice");
+                "\tName\t\t\tAmount\t\tPrice");
 
         int i = 0;
         for (Map.Entry<Product, Integer> product : cart.entrySet()) {
@@ -114,7 +114,7 @@ public class Customer extends User {
 
         }
 
-        System.out.println("\n\t\t\t\tTotal Price: " + cartTotal);
+        System.out.println("\n\t\t\t\tTotal Price: $" + cartTotal);
 
 
     }
