@@ -69,9 +69,11 @@ public class AdminMenu extends Navigation implements IMenu{
             }
             catch (Exception e) {
                 System.out.println("Input was invalid!");
-                continue;
-
+                return;
             }
+
+            if(!input.hasNext()) { return; }
+            if(process.matches("^[x\\|X]")) { return; }
 
             if (process.matches("restock")) {
 
@@ -92,12 +94,14 @@ public class AdminMenu extends Navigation implements IMenu{
 
                 }
 
-            } else if (process.matches(".details")) {
+            } else if (process.matches("details")) {
+
             } else {
+
                 System.out.println("Process Unknown! Did you misspell a word?");
 
             }
-        }while(!(product == 0));
+        }while(true);
 
     }
 
