@@ -14,7 +14,7 @@ public class ConnectionFactory {
     private static ConnectionFactory connectionFactory;
 
 
-    //driver for checking environment, what is installed and accessible ect.
+    //registering the jdbc driver.
     static {
         try {
             Class.forName("org.postgresql.Driver");
